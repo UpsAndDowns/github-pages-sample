@@ -1,50 +1,454 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-  <body>
-    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-    <div id="player"></div>
+  <head>
+    <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!--fontawesome -->
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet" />
 
-    <script>
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
-
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '550',
-          width: '100%',
-          videoId: 'M7lc1UVf-VE',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
+    <title></title>
+    <style type="text/css">
+      .video_pane {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        max-width: 540px;
+        /* height: 40vh; */
+        border: 3px;
+        max-height: 400px;
+        /* background-image: url(../static/video_demo.jpg); */
+        background-repeat: no-repeat;
+        background-size: cover;
+        opacity: 1;
+      }
+      .control_pane {
+        position: relative;
+        top: 0;
+        left: 0;
+        padding-top: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 10vh;
+        z-index: 10;
       }
 
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
+      .container {
+        display: inline-block;
+        width: calc(95% / 3);
+      }
+      /* .container input {
+        display: none;
+      } */
+
+      .arrow-button {
+        border: 0px;
+        align-items: center;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        background: #efefef;
+        border-radius: 100%;
+        opacity: 0.8;
+        outline: none;
+        box-shadow: 2px 2px 4px 4px #888888;
+      }
+      .arrow-button:active {
+        box-shadow: 0px 0px 0px 0px #888888;
+      }
+      .arrow-color {
+        color: black;
       }
 
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
-          done = true;
+      .rec-button {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+        opacity: 1;
+        outline: none;
+        box-shadow: 2px 2px 4px 4px #888888;
+      }
+      .rec-button:active {
+        box-shadow: 0px 0px 0px 0px #888888;
+      }
+
+      .rec-image {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      .on {
+        opacity: 1;
+      }
+      .off {
+        opacity: 0; /* 完全に透明 */
+      }
+    </style>
+  </head>
+  <body style="margin: 0; padding: 0">
+    <div class="video_pane">
+        <video id="VideoID1" controls="controls" width="100%" height="100%" muted="true" playsinline="true">
+            <source src=""/>
+            <!-- ※ただしchromeやsafariではmuted属性で音が出ないようにしないと自動再生されません。 -->
+        </video>
+        <!-- <iframe id="youtube-player1" width="375" height="200" src="https://www.youtube.com/embed/XfAZwV4ibnE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
+    </div>
+    <!-- フォルダ、YouTube、ウエブから動画を選択する -->
+    <div class="control_pane">
+        <div class="container"></div>
+        <div class="container">
+            <!-- <form name="form1">
+                <input type="url" name="pass1" placeholder="input YouTube url">
+            </form>             -->
+        </div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container" align="center">
+            <form><label>
+                <span class="arrow-button">
+                    <i class="far fa-folder-open fa-3x arrow-color"></i>
+                </span>
+                <input style="display:none" id="LocalFile1" type="file" accept=".mp4,.MOV"/>
+            </label></form>
+        </div>
+        <div class="container" align="center">
+          <!-- <button type="button" name="YouTube" value="YouTube" class="arrow-button" onclick="funcSelectVideo(YOUTUBE1)">
+            <i class="fab fa-youtube-square fa-3x"></i>
+          </button> -->
+        </div>
+        <div class="container" align="center">
+          <button type="button" id="WEBB1" name="WEB" value="WEB" class="arrow-button" onclick="funcSelectVideo(WEBB1)">
+            <i class="fas fa-search fa-3x arrow-color"></i>
+          </button>
+        </div>
+    </div>
+    <!-- コマ送り、再生、一時停止ボタンを配置 -->
+    <div class="control_pane">
+        <div class="container"></div>
+        <div class="container" align="center">
+          <button type="button" name="Backward" value="Backward" class="arrow-button" onclick="funcVideoCtrl(BACKWARD)">
+            <i class="fas fa-step-backward fa-4x arrow-color"></i>
+          </button>
+        </div>
+        <div class="container" align="center">
+          <button type="button" id="Play" class="arrow-button" onclick="funcVideoCtrl(PLAY)">
+            <p style = "margin-block-start: 0; margin-block-end: 0;">
+                <i class="far fa-play-circle fa-4x arrow-color"></i>
+            </p>
+          </button>
+        </div>
+        <div class="container" align="center">
+          <button type="button" name="Forward" value="Forward" class="arrow-button" onclick="funcVideoCtrl(FORWARD)">
+            <i class="fas fa-step-forward fa-4x arrow-color"></i>
+          </button>
+        </div>
+        <div class="container"></div>
+    </div>
+    <div class="video_pane">
+      <div>
+        <video id="VideoID2" controls="controls" width="100%" height="100%" muted="true" playsinline="true">
+            <source src=""/> 
+        </video>
+        <!-- <iframe id="youtube-player2" width="100%" height="auto" src="https://www.youtube.com/embed/XfAZwV4ibnE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
+      </div>
+    </div> 
+    <!-- フォルダ、YouTube、ウエブから動画を選択する -->
+    <div class="control_pane">
+        <div class="container"></div>
+        <div class="container">
+            <!-- <form name="form2">
+                <input type="url" name="pass2" placeholder="input YouTube url">
+            </form>             -->
+        </div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container" align="center">
+            <form><label>
+                <span class="arrow-button">
+                    <i class="far fa-folder-open fa-3x arrow-color"></i>
+                </span>
+                <input style="display:none" id="LocalFile2" type="file" accept=".mp4,.MOV"/>
+            </label></form>
+        </div>
+        <div class="container" align="center">
+          <!-- <button type="button" name="YouTube" value="YouTube" class="arrow-button" onclick="funcSelectVideo(YOUTUBE2)">
+            <i class="fab fa-youtube-square fa-3x"></i>
+          </button> -->
+        </div>
+        <div class="container" align="center">
+          <button type="button" id="WEBB2" name="WEB" value="WEB" class="arrow-button" onclick="funcSelectVideo(WEBB2)">
+            <i class="fas fa-search fa-3x arrow-color"></i>
+          </button>
+        </div>
+    </div>
+
+    <iframe hidden name="hiddeniframe"></iframe>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script type="text/javascript">
+
+        const ON = 1;
+        const OFF = 0;
+        const FORWARD = 1;
+        const BACKWARD = -1;
+        const PLAY = 2;
+        const FrameAdvanceResolution = 0.05
+        const FOLDER1 = 1;
+        const FOLDER2 = 2;
+        const YOUTUBE1 = 3;
+        const YOUTUBE2 = 4;
+        const WEBB1 = 5;
+        const WEBB2 = 6;
+
+        // const fileSelect = document.getElementById("fileSelect"),
+        //       fileElem = document.getElementById("fileElem");
+
+        // fileSelect.addEventListener("click", function (e) {
+        //     if (fileElem) {
+        //         fileElem.click();
+        //         console.log(fileElem);
+        //     }
+        // }, false);
+
+        const uploadImageModule =(() => {
+            const inputElem1 = document.getElementById('LocalFile1')
+            const inputElem2 = document.getElementById('LocalFile2')
+            const previewElem1 = document.getElementById('VideoID1')
+            const previewElem2 = document.getElementById('VideoID2')
+
+            // 上のフォルダアイコンがクリックされたとき
+            inputElem1.addEventListener("change", event => {
+                event.preventDefault();     // デフォルトイベントのキャンセル
+                event.stopPropagation();    // イベントのバブリングを防ぐ
+
+                // type="file"を指定されたinput要素のchangeイベントは「ファイルのリスト」を返す
+                const file = event.target.files[0];
+
+                // ファイルが存在しないか、ファイル形式が"image/*"ではないとき
+                if (!file || !file.type.match(/video\/*/)) {
+                    alert('Videoファイルではありません。')
+                    return false;
+                }
+                // FileReaderのインスタンスを生成（ローカルファイルを読み込むオブジェクト）
+                const reader = new FileReader();
+
+                // FileReaderの読み込みが完了した結果（アップロードした画像ファイルのデータ）を、img要素のsrcにセット
+                reader.addEventListener('load', event => {
+                    // event.target.resultは、base64エンコードされた画像データ
+                    previewElem1.setAttribute('src', event.target.result);
+                    funcSelectVideo(FOLDER1);
+                })
+                // セットされたオブジェクトを読み込む
+                reader.readAsDataURL(file);
+            });
+
+            // 下のフォルダアイコンがクリックされたとき
+            inputElem2.addEventListener("change", event => {
+                event.preventDefault();     // デフォルトイベントのキャンセル
+                event.stopPropagation();    // イベントのバブリングを防ぐ
+
+                // type="file"を指定されたinput要素のchangeイベントは「ファイルのリスト」を返す
+                const file = event.target.files[0];
+
+                // ファイルが存在しないか、ファイル形式が"image/*"ではないとき
+                if (!file || !file.type.match(/video\/*/)) {
+                    alert('Videoファイルではありません。')
+                    return false;
+                }
+                // FileReaderのインスタンスを生成（ローカルファイルを読み込むオブジェクト）
+                const reader = new FileReader();
+
+                // FileReaderの読み込みが完了した結果（アップロードした画像ファイルのデータ）を、img要素のsrcにセット
+                reader.addEventListener('load', event => {
+                    // event.target.resultは、base64エンコードされた画像データ
+                    previewElem2.setAttribute('src', event.target.result);
+                    funcSelectVideo(FOLDER2);
+                })
+                // セットされたオブジェクトを読み込む
+                reader.readAsDataURL(file);
+            });
+
+        })();
+
+        let PlayState = OFF;
+        var v1_index = FOLDER1;
+        var v2_index = FOLDER2;
+        var v1 = document.getElementById('VideoID1');
+        var v2 = document.getElementById('VideoID2');
+        var vYouTube1 = document.getElementById("youtube-player1")
+        var vYouTube2 = document.getElementById("youtube-player2")
+        var vWEBB1 = document.getElementById("WEBB1")
+        var vWEBB2 = document.getElementById("WEBB2")
+        // vYouTube1.style.display = "none";
+        // vYouTube2.style.display = "none";
+        // document.getElementById('youtube-player2').parentNode.removeChild(document.getElementById('youtube-player2'));
+
+        vWEBB1.style.display = "none";
+        vWEBB2.style.display = "none";
+
+        // About YouTube
+        // 「警告: ユーザーが費用負担するダウンロードを防止するために、iOS の Safari では組み込みメディアを自動再生とスクリプト再生できません。必ずユーザーが自分で再生します。」
+        // 2. This code loads the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        var ytplayer1;
+        function onYouTubeIframeAPIReady() {
+            ytplayer1 = new YT.Player('youtube-player1');
+
+              // width: '100%',
+              // height: 'auto',
+              // videoId: 'M7lc1UVf-VE',
+              // playerVars: {
+              //   autoplay: 1, // 自動再生
+              //   controls: 1, // コントロールバーを表示
+              //   showinfo: 0  // 動画情報を表示
+              // },
+
+            ytplayer2 = new YT.Player('youtube-player2', {
+              width: '100%',
+              height: 'auto',
+              videoId: 'M7lc1UVf-VE',
+              playerVars: {
+                autoplay: 1, // 自動再生
+                controls: 1, // コントロールバーを表示
+                showinfo: 0  // 動画情報を表示
+              },
+
+            });
         }
-      }
-      function stopVideo() {
-        player.stopVideo();
-      }
-    </script>
-  </body>
+
+        // ボタンクリック時の操作
+        // document.getElementById('Play').addEventListener('click', function() {
+          // if (PlayState == ON) {
+          //   ytplayer1.playVideo();
+          // } else {
+          //   ytplayer1.stopVideo();
+          // }
+        // }, false);
+
+        function stopVideo() {
+            ytplayer1.stopVideo();
+        }
+
+        document.getElementById('Play').addEventListener('click', fav);
+        // 再生ボタンとポーズボタンのフォント切り替え
+        function fav(e) {
+          const tgt = e.target;
+          tgt.classList.toggle('fa-play-circle');
+          tgt.classList.toggle('fa-pause-circle');
+          
+        }
+
+        //再生、停止、コマ送り
+        function funcVideoCtrl(index) {
+            if (index == BACKWARD) {
+                //１秒戻す
+                v1.currentTime = v1.currentTime - FrameAdvanceResolution;
+                v2.currentTime = v2.currentTime - FrameAdvanceResolution;
+            } else if (index == FORWARD) {
+                v1.currentTime = v1.currentTime + FrameAdvanceResolution;
+                v2.currentTime = v2.currentTime + FrameAdvanceResolution;
+            } else if (index == PLAY) {
+                // 再生ボタンとポーズボタンのフォント切り替え
+                // $('#Play').find('i').toggleClass('fa-play-circle fa-pause-circle');
+                var elemplay = document.getElementById("Play");
+
+                if (PlayState == OFF) {
+                    PlayState = ON;
+                    //動画を再生
+                    if (v1_index == FOLDER1) {
+                        v1.play();
+            //         //   document.getElementById('Play').classList.remove('on');
+            //         //   document.getElementById('rec1').classList.add('off');
+            //         //   document.getElementById('rec2').classList.remove('off');
+            //         //   document.getElementById('rec2').classList.add('on');
+                        // vYouTube1.pause();
+                    } else if (v1_index == YOUTUBE1) {
+                        ytplayer1.playVideo();
+                        // v1.pause();
+                    }
+                    if (v2_index == FOLDER2) {
+                        v2.play();
+                        // vYouTube2.pause();
+                    } else if (v2_index == YOUTUBE2) {
+                        ytplayer2.playVideo();
+                        // vYouTube2.play();
+                        // v2.pause();
+                    }
+                } else {
+                    PlayState = OFF;
+                    //動画を停止
+                    if (v1_index == FOLDER1) {
+                        v1.pause();
+                    } else if (v1_index == YOUTUBE1) {
+                        ytplayer1.stopVideo();
+                    } 
+                    if (v2_index == FOLDER2) {
+                        v2.pause();
+                    } else if (v2_index == YOUTUBE2) {
+                        ytplayer2.stopVideo();
+                        // vYouTube2.pause();
+                    }
+                }
+            }
+        }
+        // フォルダ、YOUTUBEマークをクリックしたときのイベントハンドラ
+        function funcSelectVideo(index) {
+            if (index == FOLDER1) {
+                v1_index = FOLDER1;
+                // document.getElementById('youtube-player1').parentNode.removeChild(document.getElementById('youtube-player1'));
+                v1.style.display = "block";
+            
+            } else if (index == FOLDER2) {
+                v2_index = FOLDER2;
+                vYouTube2.style.display = "none";
+                v2.style.display = "block";
+            
+            } else if (index == YOUTUBE1) {
+                v1_index = YOUTUBE1;
+                v1.style.display = "none";
+                // vYouTube1.parentNode.appendChild(document.getElementById('youtube-player1'));
+                // document.getElementById('youtube-player1').parentNode.appendChild(document.getElementById('youtube-player1'));
+
+                const pass1 = document.form1.pass1;
+                // ytplayer1.videoId = pass1.value;
+                //var videoId = pass1.value;  //"7WmkYEZc3as";
+                var url = "https://www.youtube.com/embed/" + pass1.value;
+                var e = document.getElementById("youtube-player1");
+                e.src = url;
+                // vYouTube1.style.display = "block";
+
+            } else if (index == YOUTUBE2) {
+                v2_index = YOUTUBE2;
+                v2.style.display = "none";
+
+                const pass2 = document.form2.pass2;
+                //var videoId = pass2.value;  //"7WmkYEZc3as";
+                var url = "https://www.youtube.com/embed/" + pass2.value;
+                var e = document.getElementById("youtube-player2");
+                e.src = url;
+                vYouTube2.style.display = "block";
+            } else if (index == WEBB2) {
+                var pass2 = document.form2.pass2; //https://photos.google.com/photo/AF1QipNcC6_7sVGPqPriGxBrVFhc31hOmbmjUKyBHQe5
+                v1.src = pass2;
+            }
+        }
+      </script>
+    </body>
 </html>
+
