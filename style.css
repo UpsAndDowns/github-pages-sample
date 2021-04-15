@@ -1,0 +1,148 @@
+/* すべてのタグに対して指定(CSS Reset) */
+* {
+  /* display: flex; */
+  /* box-sizing:border-box; */
+  margin:0;
+  padding:0;
+}
+@media (orientation: landscape) {  /* 横向き */
+  .parent {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .child {
+    flex-grow: 1;
+  }
+  .child:last-child {
+    width: 100%;
+  }
+  .video_pane {
+    display: flex;
+    flex-wrap: wrap;
+    /* position: relative; */
+    /* flex-grow: 1; */
+    width: 80vw;
+    height: 80vh;
+    /* border: 3px; */
+    /* max-height: 400px; */
+    background-color: #eab768;
+    /* background-image: url(../static/video_demo.jpg); */
+    /* background-repeat: no-repeat; */
+    /* background-size: cover; */
+    opacity: 1;
+  }
+  .video_container {
+    display: flex;
+    /* flex-grow: 1; */
+    width:	50%;
+    height: calc(79%*9/16);
+    opacity: 1;
+    object-fit: cover;
+  }
+
+  .file_control_pane {
+    /* position: relative; */
+    width: 18vw;
+    /* height: 10vh; */
+    /* z-index: 10; */
+  }
+  .player_control_pane {
+    height: 18vh;
+    /* z-index: 10; */
+  }
+  .file_container {
+    display: inline-block;
+    width: calc(95% / 2);
+  }
+  .player_container {
+    display: inline-block;
+    width: calc(95% / 5);
+  }
+}
+@media (orientation: portrait) { /* 縦向き */
+  .parent {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .child {
+    flex-grow: 1;
+  }
+  .child:last-child {
+    width: 100%;
+  }
+  .video_pane {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+    /* background-size: cover; */
+    opacity: 1;
+  }
+  .video_container {
+    display: flex;
+    width:	100%;
+    height: auto;
+  }
+  .file_control_pane {
+    width: 18vw;
+    height: 20vh;
+  }
+  .player_control_pane {
+    width: 18vw;
+    height: 20vh;
+    /* z-index: 10; */
+  }
+  .file_container {
+    display: inline-block;
+    width: calc(90% / 2);
+  }
+  .player_container {
+    display: inline-block;
+    width: calc(90% / 5);
+  }
+}
+
+.arrow-button {
+  border: 0px;
+  align-items: center;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  background: #efefef;
+  border-radius: 100%;
+  opacity: 0.8;
+  outline: none;
+  box-shadow: 2px 2px 4px 4px #888888;
+}
+.arrow-button:active {
+  box-shadow: 0px 0px 0px 0px #888888;
+}
+.arrow-color {
+  color: black;
+}
+
+.rec-button {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  opacity: 1;
+  outline: none;
+  box-shadow: 2px 2px 4px 4px #888888;
+}
+.rec-button:active {
+  box-shadow: 0px 0px 0px 0px #888888;
+}
+
+.rec-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.on {
+  opacity: 1;
+}
+.off {
+  opacity: 0; /* 完全に透明 */
+}
