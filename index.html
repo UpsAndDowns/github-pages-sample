@@ -4,114 +4,40 @@
     <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <!--fontawesome -->
+    <link href="style.css" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet" />
 
     <title></title>
-    <style type="text/css">
-      .video_pane {
-        position: relative;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        max-width: 540px;
-        /* height: 40vh; */
-        border: 3px;
-        max-height: 400px;
-        /* background-image: url(../static/video_demo.jpg); */
-        background-repeat: no-repeat;
-        background-size: cover;
-        opacity: 1;
-      }
-      .control_pane {
-        position: relative;
-        top: 0;
-        left: 0;
-        padding-top: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        height: 10vh;
-        z-index: 10;
-      }
-
-      .container {
-        display: inline-block;
-        width: calc(95% / 3);
-      }
-      /* .container input {
-        display: none;
-      } */
-
-      .arrow-button {
-        border: 0px;
-        align-items: center;
-        font-size: 14px;
-        display: flex;
-        justify-content: center;
-        width: 54px;
-        height: 54px;
-        background: #efefef;
-        border-radius: 100%;
-        opacity: 0.8;
-        outline: none;
-        box-shadow: 2px 2px 4px 4px #888888;
-      }
-      .arrow-button:active {
-        box-shadow: 0px 0px 0px 0px #888888;
-      }
-      .arrow-color {
-        color: black;
-      }
-
-      .rec-button {
-        position: relative;
-        width: 50px;
-        height: 50px;
-        border-radius: 100%;
-        opacity: 1;
-        outline: none;
-        box-shadow: 2px 2px 4px 4px #888888;
-      }
-      .rec-button:active {
-        box-shadow: 0px 0px 0px 0px #888888;
-      }
-
-      .rec-image {
-        position: absolute;
-        top: 0;
-        right: 0;
-      }
-      .on {
-        opacity: 1;
-      }
-      .off {
-        opacity: 0; /* 完全に透明 */
-      }
-    </style>
   </head>
-  <body style="margin: 0; padding: 0">
-    <div class="video_pane">
-        <video id="VideoID1" controls="controls" width="100%" height="100%" muted="true" playsinline="true">
+  <body style="margin: 0 auto; ">
+    <div class="parent">
+      <!-- <div class="child"> -->
+      <div class="video_pane">
+        <!-- <div class="video_container"> -->
+        <video class="video_container" id="VideoID1" controls="controls" muted="true" playsinline="true">
             <source src=""/>
             <!-- ※ただしchromeやsafariではmuted属性で音が出ないようにしないと自動再生されません。 -->
         </video>
         <!-- <iframe id="youtube-player1" width="375" height="200" src="https://www.youtube.com/embed/XfAZwV4ibnE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
-    </div>
-    <!-- フォルダ、YouTube、ウエブから動画を選択する -->
-    <div class="control_pane">
-        <div class="container"></div>
+        <!-- </div> -->
+        <!-- <div class="video_container"> -->
+        <video class="video_container" id="VideoID2" controls="controls" muted="true" playsinline="true">
+          <source src=""/> 
+        </video>
+        <!-- <iframe id="youtube-player2" width="100%" height="auto" src="https://www.youtube.com/embed/XfAZwV4ibnE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
+        <!-- </div>  -->
+      </div>
+      <!-- フォルダ、YouTube、ウエブから動画を選択する -->
+      <div class="child file_control_pane">
+      <!-- <div class="file_control_pane"> -->
+        <!-- 
         <div class="container">
-            <!-- <form name="form1">
+            <form name="form1">
                 <input type="url" name="pass1" placeholder="input YouTube url">
-            </form>             -->
+            </form>            
         </div>
-        <div class="container"></div>
-        <div class="container"></div>
-        <div class="container"></div>
-        <div class="container"></div>
-        <div class="container" align="center">
+        -->
+        <div class="file_container" align="center">
             <form><label>
                 <span class="arrow-button">
                     <i class="far fa-folder-open fa-3x arrow-color"></i>
@@ -119,60 +45,23 @@
                 <input style="display:none" id="LocalFile1" type="file" accept=".mp4,.MOV"/>
             </label></form>
         </div>
-        <div class="container" align="center">
-          <!-- <button type="button" name="YouTube" value="YouTube" class="arrow-button" onclick="funcSelectVideo(YOUTUBE1)">
+        <!-- <div class="file_container" align="center">
+          <button type="button" name="YouTube" value="YouTube" class="arrow-button" onclick="funcSelectVideo(YOUTUBE1)">
             <i class="fab fa-youtube-square fa-3x"></i>
-          </button> -->
-        </div>
-        <div class="container" align="center">
+          </button>
+        </div> -->
+        <!-- <div class="file_container" align="center">
           <button type="button" id="WEBB1" name="WEB" value="WEB" class="arrow-button" onclick="funcSelectVideo(WEBB1)">
             <i class="fas fa-search fa-3x arrow-color"></i>
           </button>
-        </div>
-    </div>
-    <!-- コマ送り、再生、一時停止ボタンを配置 -->
-    <div class="control_pane">
-        <div class="container"></div>
-        <div class="container" align="center">
-          <button type="button" name="Backward" value="Backward" class="arrow-button" onclick="funcVideoCtrl(BACKWARD)">
-            <i class="fas fa-step-backward fa-4x arrow-color"></i>
-          </button>
-        </div>
-        <div class="container" align="center">
-          <button type="button" id="Play" class="arrow-button" onclick="funcVideoCtrl(PLAY)">
-            <p style = "margin-block-start: 0; margin-block-end: 0;">
-                <i class="far fa-play-circle fa-4x arrow-color"></i>
-            </p>
-          </button>
-        </div>
-        <div class="container" align="center">
-          <button type="button" name="Forward" value="Forward" class="arrow-button" onclick="funcVideoCtrl(FORWARD)">
-            <i class="fas fa-step-forward fa-4x arrow-color"></i>
-          </button>
-        </div>
-        <div class="container"></div>
-    </div>
-    <div class="video_pane">
-      <div>
-        <video id="VideoID2" controls="controls" width="100%" height="100%" muted="true" playsinline="true">
-            <source src=""/> 
-        </video>
-        <!-- <iframe id="youtube-player2" width="100%" height="auto" src="https://www.youtube.com/embed/XfAZwV4ibnE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
-      </div>
-    </div> 
-    <!-- フォルダ、YouTube、ウエブから動画を選択する -->
-    <div class="control_pane">
-        <div class="container"></div>
-        <div class="container">
-            <!-- <form name="form2">
-                <input type="url" name="pass2" placeholder="input YouTube url">
-            </form>             -->
-        </div>
-        <div class="container"></div>
-        <div class="container"></div>
-        <div class="container"></div>
-        <div class="container"></div>
-        <div class="container" align="center">
+        </div> -->
+        <!-- フォルダ、YouTube、ウエブから動画を選択する -->
+        <!-- <div class="file_container">
+          <form name="form2">
+              <input type="url" name="pass2" placeholder="input YouTube url">
+          </form>            
+        </div> -->
+        <div class="file_container" align="center">
             <form><label>
                 <span class="arrow-button">
                     <i class="far fa-folder-open fa-3x arrow-color"></i>
@@ -180,16 +69,48 @@
                 <input style="display:none" id="LocalFile2" type="file" accept=".mp4,.MOV"/>
             </label></form>
         </div>
-        <div class="container" align="center">
-          <!-- <button type="button" name="YouTube" value="YouTube" class="arrow-button" onclick="funcSelectVideo(YOUTUBE2)">
+        <!-- <div class="file_container" align="center">
+          <button type="button" name="YouTube" value="YouTube" class="arrow-button" onclick="funcSelectVideo(YOUTUBE2)">
             <i class="fab fa-youtube-square fa-3x"></i>
-          </button> -->
-        </div>
-        <div class="container" align="center">
+          </button>
+        </div> -->
+        <!-- <div class="file_container" align="center">
           <button type="button" id="WEBB2" name="WEB" value="WEB" class="arrow-button" onclick="funcSelectVideo(WEBB2)">
             <i class="fas fa-search fa-3x arrow-color"></i>
           </button>
+        </div> -->
+      </div>
+      <!-- コマ送り、再生、一時停止ボタンを配置 -->
+      <div class="child player_control_pane">
+      <!-- <div class="player_control_pane"> -->
+        <div class="player_container" align="center">
+          <button type="button" name="Backward" value="Backward" class="arrow-button" onclick="funcVideoCtrl(BACKWARD)">
+            <i class="fas fa-backward fa-4x arrow-color"></i>
+          </button>
         </div>
+        <div class="player_container" align="center">
+          <button type="button" name="Backward" value="Backward" class="arrow-button" onclick="funcVideoCtrl(STEPBACKWARD)">
+            <i class="fas fa-step-backward fa-4x arrow-color"></i>
+          </button>
+        </div>
+        <div class="player_container" align="center">
+          <button type="button" id="Play" class="arrow-button" onclick="funcVideoCtrl(PLAY)">
+            <p style = "margin-block-start: 0; margin-block-end: 0;">
+                <i class="far fa-play-circle fa-4x arrow-color"></i>
+            </p>
+          </button>
+        </div>
+        <div class="player_container" align="center">
+          <button type="button" name="Forward" value="Forward" class="arrow-button" onclick="funcVideoCtrl(STEPFORWARD)">
+            <i class="fas fa-step-forward fa-4x arrow-color"></i>
+          </button>
+        </div>
+        <div class="player_container" align="center">
+          <button type="button" name="Forward" value="Forward" class="arrow-button" onclick="funcVideoCtrl(FORWARD)">
+            <i class="fas fa-forward fa-4x arrow-color"></i>	
+          </button>
+        </div>
+      </div>  
     </div>
 
     <iframe hidden name="hiddeniframe"></iframe>
@@ -198,9 +119,11 @@
 
         const ON = 1;
         const OFF = 0;
-        const FORWARD = 1;
-        const BACKWARD = -1;
-        const PLAY = 2;
+        const STEPFORWARD = 1;
+        const STEPBACKWARD = -1;
+        const FORWARD = 2;
+        const BACKWARD = -2;
+        const PLAY = 3;
         const FrameAdvanceResolution = 0.05
         const FOLDER1 = 1;
         const FOLDER2 = 2;
@@ -292,8 +215,8 @@
         // vYouTube2.style.display = "none";
         // document.getElementById('youtube-player2').parentNode.removeChild(document.getElementById('youtube-player2'));
 
-        vWEBB1.style.display = "none";
-        vWEBB2.style.display = "none";
+        // vWEBB1.style.display = "none";
+        // vWEBB2.style.display = "none";
 
         // About YouTube
         // 「警告: ユーザーが費用負担するダウンロードを防止するために、iOS の Safari では組み込みメディアを自動再生とスクリプト再生できません。必ずユーザーが自分で再生します。」
@@ -334,11 +257,11 @@
 
         // ボタンクリック時の操作
         // document.getElementById('Play').addEventListener('click', function() {
-          // if (PlayState == ON) {
-          //   ytplayer1.playVideo();
-          // } else {
-          //   ytplayer1.stopVideo();
-          // }
+        //   if (PlayState == ON) {
+        //     ytplayer1.playVideo();
+        //   } else {
+        //     ytplayer1.stopVideo();
+        //   }
         // }, false);
 
         function stopVideo() {
@@ -356,13 +279,22 @@
 
         //再生、停止、コマ送り
         function funcVideoCtrl(index) {
-            if (index == BACKWARD) {
-                //１秒戻す
+            if (index == STEPBACKWARD) {
+                //１コマ戻す
                 v1.currentTime = v1.currentTime - FrameAdvanceResolution;
                 v2.currentTime = v2.currentTime - FrameAdvanceResolution;
-            } else if (index == FORWARD) {
+              } else if (index == STEPFORWARD) {
                 v1.currentTime = v1.currentTime + FrameAdvanceResolution;
                 v2.currentTime = v2.currentTime + FrameAdvanceResolution;
+              } else if (index == BACKWARD) {
+                // PC版Chromeは逆再生が対応していない
+                // v1.playbackRate = v1.playbackRate - 1;
+                // v2.playbackRate = v2.playbackRate - 1;
+                v1.currentTime = v1.currentTime - 3;
+                v2.currentTime = v2.currentTime - 3;
+              } else if (index == FORWARD) {
+                v1.playbackRate = v1.playbackRate + 1;
+                v2.playbackRate = v2.playbackRate + 1;
             } else if (index == PLAY) {
                 // 再生ボタンとポーズボタンのフォント切り替え
                 // $('#Play').find('i').toggleClass('fa-play-circle fa-pause-circle');
@@ -372,6 +304,7 @@
                     PlayState = ON;
                     //動画を再生
                     if (v1_index == FOLDER1) {
+                        v1.playbackRate = 1;
                         v1.play();
             //         //   document.getElementById('Play').classList.remove('on');
             //         //   document.getElementById('rec1').classList.add('off');
@@ -383,6 +316,7 @@
                         // v1.pause();
                     }
                     if (v2_index == FOLDER2) {
+                        v2.playbackRate = 1;
                         v2.play();
                         // vYouTube2.pause();
                     } else if (v2_index == YOUTUBE2) {
@@ -416,7 +350,7 @@
             
             } else if (index == FOLDER2) {
                 v2_index = FOLDER2;
-                vYouTube2.style.display = "none";
+                // vYouTube2.style.display = "none";
                 v2.style.display = "block";
             
             } else if (index == YOUTUBE1) {
