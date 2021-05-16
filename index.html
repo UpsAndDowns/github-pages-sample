@@ -1,31 +1,60 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> -->
 <html>
   <head>
     <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- <link href="https://unpkg.com/sanitize.css" rel="stylesheet"/> -->
     <link href="style.css" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet" />
+    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 
     <title></title>
   </head>
   <body style="margin: 0 auto; ">
     <div class="parent">
       <!-- <div class="child"> -->
-      <div class="video_pane">
-        <!-- <div class="video_container"> -->
-        <video class="video_container" id="VideoID1" controls="controls" muted="true" playsinline="true">
-            <source src=""/>
-            <!-- ※ただしchromeやsafariではmuted属性で音が出ないようにしないと自動再生されません。 -->
-        </video>
-        <!-- <iframe id="youtube-player1" width="375" height="200" src="https://www.youtube.com/embed/XfAZwV4ibnE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
-        <!-- </div> -->
-        <!-- <div class="video_container"> -->
-        <video class="video_container" id="VideoID2" controls="controls" muted="true" playsinline="true">
-          <source src=""/> 
-        </video>
-        <!-- <iframe id="youtube-player2" width="100%" height="auto" src="https://www.youtube.com/embed/XfAZwV4ibnE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
-        <!-- </div>  -->
+      <div class="child video_pane">
+        <div class="video_container" id="v1container">
+          <video width="100%" height="100%" id="VideoID1" controls playsinline muted onTimeUpdate="handleTimeUpdate()">
+              <source src=""/>
+              <!-- ※ただしchromeやsafariではmuted属性で音が出ないようにしないと自動再生されません。 -->
+          </video>
+        </div>
+        <div class="video_container" id="v2container">
+          <video width="100%" height="100%" id="VideoID2" controls="controls" playsinline="true"muted="true" >
+            <source src=""/> 
+          </video>
+        </div>
+        <div id="slider1" class="middle">
+          <input type="range" id="input-left1" min="0" max="100" value="0">
+          <input type="range" id="input-right1" min="0" max="100" value="100">
+      
+          <div class="slider">
+            <div class="track"></div>
+            <div class="range"></div>
+            <div class="thumb left"></div>
+            <div class="thumb right"></div>
+          </div>
+        </div>
+        <div id="slider2" class="middle">
+          <input type="range" id="input-left2" min="0" max="100" value="0">
+          <input type="range" id="input-right2" min="0" max="100" value="100">
+      
+          <div class="slider">
+            <div class="track"></div>
+            <div class="range"></div>
+            <div class="thumb left"></div>
+            <div class="thumb right"></div>
+          </div>
+        </div>
+        <div class="player_container" align="center">
+          <button type="button" id="rangeAB" class="rangeA-B-button">
+            <font>A-B</font>
+          </button>
+        </div>
       </div>
       <!-- フォルダ、YouTube、ウエブから動画を選択する -->
       <div class="child file_control_pane">
@@ -50,11 +79,6 @@
             <i class="fab fa-youtube-square fa-3x"></i>
           </button>
         </div> -->
-        <!-- <div class="file_container" align="center">
-          <button type="button" id="WEBB1" name="WEB" value="WEB" class="arrow-button" onclick="funcSelectVideo(WEBB1)">
-            <i class="fas fa-search fa-3x arrow-color"></i>
-          </button>
-        </div> -->
         <!-- フォルダ、YouTube、ウエブから動画を選択する -->
         <!-- <div class="file_container">
           <form name="form2">
@@ -74,15 +98,10 @@
             <i class="fab fa-youtube-square fa-3x"></i>
           </button>
         </div> -->
-        <!-- <div class="file_container" align="center">
-          <button type="button" id="WEBB2" name="WEB" value="WEB" class="arrow-button" onclick="funcSelectVideo(WEBB2)">
-            <i class="fas fa-search fa-3x arrow-color"></i>
-          </button>
-        </div> -->
       </div>
       <!-- コマ送り、再生、一時停止ボタンを配置 -->
       <div class="child player_control_pane">
-      <!-- <div class="player_control_pane"> -->
+        <!-- <div class="player_control_pane"> -->
         <div class="player_container" align="center">
           <button type="button" name="Backward" value="Backward" class="arrow-button" onclick="funcVideoCtrl(BACKWARD)">
             <i class="fas fa-backward fa-4x arrow-color"></i>
@@ -115,274 +134,325 @@
 
     <iframe hidden name="hiddeniframe"></iframe>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
     <script type="text/javascript">
 
-        const ON = 1;
-        const OFF = 0;
-        const STEPFORWARD = 1;
-        const STEPBACKWARD = -1;
-        const FORWARD = 2;
-        const BACKWARD = -2;
-        const PLAY = 3;
-        const FrameAdvanceResolution = 0.05
-        const FOLDER1 = 1;
-        const FOLDER2 = 2;
-        const YOUTUBE1 = 3;
-        const YOUTUBE2 = 4;
-        const WEBB1 = 5;
-        const WEBB2 = 6;
+      window.onload = function() {
+        // スクロールを禁止にする関数
+        function disableScroll(event) {
+          event.preventDefault();
+        }
+      }
+      const ON = 1;
+      const OFF = 0;
+      const STEPFORWARD = 1;
+      const STEPBACKWARD = -1;
+      const FORWARD = 2;
+      const BACKWARD = -2;
+      const PLAY = 3;
+      const FrameAdvanceResolution = 0.05;
+      const FOLDER1 = 1;
+      const FOLDER2 = 2;
+      const YOUTUBE1 = 3;
+      const YOUTUBE2 = 4;
 
-        // const fileSelect = document.getElementById("fileSelect"),
-        //       fileElem = document.getElementById("fileElem");
+      const uploadImageModule =(() => {
+          const inputElem1 = document.getElementById('LocalFile1')
+          const inputElem2 = document.getElementById('LocalFile2')
+          const previewElem1 = document.getElementById('VideoID1')
+          const previewElem2 = document.getElementById('VideoID2')
 
-        // fileSelect.addEventListener("click", function (e) {
-        //     if (fileElem) {
-        //         fileElem.click();
-        //         console.log(fileElem);
-        //     }
-        // }, false);
+          // 上のフォルダアイコンがクリックされたとき
+          inputElem1.addEventListener("change", event => {
+              event.preventDefault();     // デフォルトイベントのキャンセル
+              event.stopPropagation();    // イベントのバブリングを防ぐ
 
-        const uploadImageModule =(() => {
-            const inputElem1 = document.getElementById('LocalFile1')
-            const inputElem2 = document.getElementById('LocalFile2')
-            const previewElem1 = document.getElementById('VideoID1')
-            const previewElem2 = document.getElementById('VideoID2')
+              // type="file"を指定されたinput要素のchangeイベントは「ファイルのリスト」を返す
+              const file = event.target.files[0];
 
-            // 上のフォルダアイコンがクリックされたとき
-            inputElem1.addEventListener("change", event => {
-                event.preventDefault();     // デフォルトイベントのキャンセル
-                event.stopPropagation();    // イベントのバブリングを防ぐ
+              // ファイルが存在しないか、ファイル形式が"image/*"ではないとき
+              if (!file || !file.type.match(/video\/*/)) {
+                  alert('Videoファイルではありません。')
+                  return false;
+              }
+              // FileReaderのインスタンスを生成（ローカルファイルを読み込むオブジェクト）
+              const reader = new FileReader();
 
-                // type="file"を指定されたinput要素のchangeイベントは「ファイルのリスト」を返す
-                const file = event.target.files[0];
+              // FileReaderの読み込みが完了した結果（アップロードした画像ファイルのデータ）を、img要素のsrcにセット
+              reader.addEventListener('load', event => {
+                  // event.target.resultは、base64エンコードされた画像データ
+                  previewElem1.setAttribute('src', event.target.result);
 
-                // ファイルが存在しないか、ファイル形式が"image/*"ではないとき
-                if (!file || !file.type.match(/video\/*/)) {
-                    alert('Videoファイルではありません。')
-                    return false;
-                }
-                // FileReaderのインスタンスを生成（ローカルファイルを読み込むオブジェクト）
-                const reader = new FileReader();
+                  funcSelectVideo(FOLDER1);
+              })
+              // 時間の長さを取得
+              const video = document.querySelector('video');
 
-                // FileReaderの読み込みが完了した結果（アップロードした画像ファイルのデータ）を、img要素のsrcにセット
-                reader.addEventListener('load', event => {
-                    // event.target.resultは、base64エンコードされた画像データ
-                    previewElem1.setAttribute('src', event.target.result);
-                    funcSelectVideo(FOLDER1);
-                })
-                // セットされたオブジェクトを読み込む
-                reader.readAsDataURL(file);
-            });
+              video.addEventListener('loadedmetadata', (event) => {
+                inputLeft1.max = v1.duration;
+                inputRight1.max = v1.duration;
+                console.log(v1.duration);
+              });
 
-            // 下のフォルダアイコンがクリックされたとき
-            inputElem2.addEventListener("change", event => {
-                event.preventDefault();     // デフォルトイベントのキャンセル
-                event.stopPropagation();    // イベントのバブリングを防ぐ
+              // セットされたオブジェクトを読み込む
+              reader.readAsDataURL(file);
+          });
 
-                // type="file"を指定されたinput要素のchangeイベントは「ファイルのリスト」を返す
-                const file = event.target.files[0];
 
-                // ファイルが存在しないか、ファイル形式が"image/*"ではないとき
-                if (!file || !file.type.match(/video\/*/)) {
-                    alert('Videoファイルではありません。')
-                    return false;
-                }
-                // FileReaderのインスタンスを生成（ローカルファイルを読み込むオブジェクト）
-                const reader = new FileReader();
+          // 下のフォルダアイコンがクリックされたとき
+          inputElem2.addEventListener("change", event => {
+              event.preventDefault();     // デフォルトイベントのキャンセル
+              event.stopPropagation();    // イベントのバブリングを防ぐ
 
-                // FileReaderの読み込みが完了した結果（アップロードした画像ファイルのデータ）を、img要素のsrcにセット
-                reader.addEventListener('load', event => {
-                    // event.target.resultは、base64エンコードされた画像データ
-                    previewElem2.setAttribute('src', event.target.result);
-                    funcSelectVideo(FOLDER2);
-                })
-                // セットされたオブジェクトを読み込む
-                reader.readAsDataURL(file);
-            });
+              // type="file"を指定されたinput要素のchangeイベントは「ファイルのリスト」を返す
+              const file = event.target.files[0];
 
-        })();
+              // ファイルが存在しないか、ファイル形式が"image/*"ではないとき
+              if (!file || !file.type.match(/video\/*/)) {
+                  alert('Videoファイルではありません。')
+                  return false;
+              }
+              // FileReaderのインスタンスを生成（ローカルファイルを読み込むオブジェクト）
+              const reader = new FileReader();
 
-        let PlayState = OFF;
-        var v1_index = FOLDER1;
-        var v2_index = FOLDER2;
-        var v1 = document.getElementById('VideoID1');
-        var v2 = document.getElementById('VideoID2');
-        var vYouTube1 = document.getElementById("youtube-player1")
-        var vYouTube2 = document.getElementById("youtube-player2")
-        var vWEBB1 = document.getElementById("WEBB1")
-        var vWEBB2 = document.getElementById("WEBB2")
-        // vYouTube1.style.display = "none";
-        // vYouTube2.style.display = "none";
-        // document.getElementById('youtube-player2').parentNode.removeChild(document.getElementById('youtube-player2'));
+              // FileReaderの読み込みが完了した結果（アップロードした画像ファイルのデータ）を、img要素のsrcにセット
+              reader.addEventListener('load', event => {
+                  // event.target.resultは、base64エンコードされた画像データ
+                  previewElem2.setAttribute('src', event.target.result);
+                  funcSelectVideo(FOLDER2);
+              })
+              // セットされたオブジェクトを読み込む
+              reader.readAsDataURL(file);
+          });
 
-        // vWEBB1.style.display = "none";
-        // vWEBB2.style.display = "none";
+      })();
 
-        // About YouTube
-        // 「警告: ユーザーが費用負担するダウンロードを防止するために、iOS の Safari では組み込みメディアを自動再生とスクリプト再生できません。必ずユーザーが自分で再生します。」
-        // 2. This code loads the IFrame Player API code asynchronously.
-        var tag = document.createElement('script');
+      var rangeABstep = 0;
+      var selectedisplay = 0; // 0:None, 1:only right, 2: Only left:, 3:both
+      let PlayState = OFF;
+      var v1_index = FOLDER1;
+      var v2_index = FOLDER2;
+      var v1 = document.getElementById('VideoID1');
+      var v2 = document.getElementById('VideoID2');
 
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      // Multi Handle Range Slider
+      var inputLeft1 = document.getElementById("input-left1");
+      var inputRight1 = document.getElementById("input-right1");
+      var inputLeft2 = document.getElementById("input-left2");
+      var inputRight2 = document.getElementById("input-right2");
 
-        // 3. This function creates an <iframe> (and YouTube player)
-        //    after the API code downloads.
-        var ytplayer1;
-        function onYouTubeIframeAPIReady() {
-            ytplayer1 = new YT.Player('youtube-player1');
+      var thumbLeft = document.querySelector(".slider > .thumb.left");
+      var thumbRight = document.querySelector(".slider > .thumb.right");
+      var range = document.querySelector(".slider > .range");
 
-              // width: '100%',
-              // height: 'auto',
-              // videoId: 'M7lc1UVf-VE',
-              // playerVars: {
-              //   autoplay: 1, // 自動再生
-              //   controls: 1, // コントロールバーを表示
-              //   showinfo: 0  // 動画情報を表示
-              // },
+      function setLeftValue(e) {
+        var _this = inputLeft1,
+            min = parseInt(_this.min),
+            max = parseInt(_this.max);
 
-            ytplayer2 = new YT.Player('youtube-player2', {
-              width: '100%',
-              height: 'auto',
-              videoId: 'M7lc1UVf-VE',
-              playerVars: {
-                autoplay: 1, // 自動再生
-                controls: 1, // コントロールバーを表示
-                showinfo: 0  // 動画情報を表示
-              },
+        _this.value = Math.min(parseInt(_this.value), parseInt(inputRight1.value) - 1);
 
-            });
+        var percent = ((_this.value - min) / (max - min)) * 100;
+
+        thumbLeft.style.left = percent + "%";
+        range.style.left = percent + "%";
+      }
+      setLeftValue();
+
+      function setRightValue() {
+        var _this = inputRight1,
+          min = parseInt(_this.min),
+          max = parseInt(_this.max);
+
+        _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft1.value) + 1);
+
+        var percent = ((_this.value - min) / (max - min)) * 100;
+
+        thumbRight.style.right = (100 - percent) + "%";
+        range.style.right = (100 - percent) + "%";
+      }
+      setRightValue();
+
+      inputLeft1.addEventListener("input", setLeftValue);
+      inputRight1.addEventListener("input", setRightValue);
+      
+      // Multi Handle Range Slider2
+
+
+      // inputLeft2.addEventListener("input", setLeftValue);
+      // inputRight2.addEventListener("input", setRightValue);
+      
+
+      document.getElementById('slider1').addEventListener('click', SelectedV1);
+      // sliderをクリックして画面を選択
+      function SelectedV1(e) {
+        // const tgt = e.target;
+        // console.log(document.getElementById('v1container').style.borderColor);
+        if(document.getElementById('v1container').style.borderColor!="red") {
+          document.getElementById('v1container').style.borderColor="red";
+          selectedisplay |= 2;
+        } else {
+          document.getElementById('v1container').style.borderColor="gray";
+          selectedisplay &= 1;
+        }
+      }
+
+      document.getElementById('slider2').addEventListener('click', SelectedV2);
+      // sliderをクリックして画面を選択
+      function SelectedV2(e) {
+        if(document.getElementById('v2container').style.borderColor!="red") {
+          document.getElementById('v2container').style.borderColor="red";
+          selectedisplay |= 1;
+        } else {
+          document.getElementById('v2container').style.borderColor="gray";
+          selectedisplay &= 2;
+        }
+      }
+
+      function handleTimeUpdate(e)
+      {
+        if (v1.currentTime < inputLeft1.value) {
+          v1.currentTime = inputLeft1.value;
+          v1.play();
+        }
+        if (inputRight1.value < v1.currentTime) {
+          v1.currentTime = inputLeft1.value;
         }
 
-        // ボタンクリック時の操作
-        // document.getElementById('Play').addEventListener('click', function() {
-        //   if (PlayState == ON) {
-        //     ytplayer1.playVideo();
-        //   } else {
-        //     ytplayer1.stopVideo();
-        //   }
-        // }, false);
+      }
 
-        function stopVideo() {
-            ytplayer1.stopVideo();
+      document.getElementById('rangeAB').addEventListener('click', function() {
+        if (rangeABstep == 0) {
+          inputLeft1.value = v1.currentTime;
+          rangeABstep++;
+        } else if (rangeABstep == 1) {
+          inputRight1.value = v1.currentTime;
+          rangeABstep++;
+        } else if (rangeABstep == 2) {
+          inputLeft1.value = 0;
+          inputRight1.value = v1.max;
+          rangeABstep = 0;
         }
+        setLeftValue();
+        setRightValue();
+        console.log("ほげほげ1",rangeABstep);
+      });
+      
 
-        document.getElementById('Play').addEventListener('click', fav);
-        // 再生ボタンとポーズボタンのフォント切り替え
-        function fav(e) {
-          const tgt = e.target;
-          tgt.classList.toggle('fa-play-circle');
-          tgt.classList.toggle('fa-pause-circle');
+      document.getElementById('Play').addEventListener('click', fav);
+      // 再生ボタンとポーズボタンのフォント切り替え
+      function fav(e) {
+        const tgt = e.target;
+        tgt.classList.toggle('fa-play-circle');
+        tgt.classList.toggle('fa-pause-circle');
+        
+      }
+
+      //再生、停止、コマ送り
+      function funcVideoCtrl(index) {
+          if (index == STEPBACKWARD) {
+              //１コマ戻す
+              if (selectedisplay != 1) v1.currentTime = v1.currentTime - FrameAdvanceResolution;
+              if (selectedisplay != 2) v2.currentTime = v2.currentTime - FrameAdvanceResolution;
+          } else if (index == STEPFORWARD) {
+              if (selectedisplay != 1) v1.currentTime = v1.currentTime + FrameAdvanceResolution;
+              if (selectedisplay != 2) v2.currentTime = v2.currentTime + FrameAdvanceResolution; 
+          } else if (index == BACKWARD) {
+              // PC版Chromeは逆再生が対応していない
+              if (selectedisplay != 1) v1.playbackRate = v1.playbackRate - 1;
+              if (selectedisplay != 2) v2.playbackRate = v2.playbackRate - 1;
+              // v1.currentTime = v1.currentTime - 3;
+              // v2.currentTime = v2.currentTime - 3;
+          } else if (index == FORWARD) {
+              if (selectedisplay != 1) v1.playbackRate = v1.playbackRate + 1;
+              if (selectedisplay != 2) v2.playbackRate = v2.playbackRate + 1;
+          } else if (index == PLAY) {
+              // 再生ボタンとポーズボタンのフォント切り替え
+              // $('#Play').find('i').toggleClass('fa-play-circle fa-pause-circle');
+              var elemplay = document.getElementById("Play");
+
+              if (PlayState == OFF) {
+                  PlayState = ON;
+                  //動画を再生
+                  if (v1_index == FOLDER1 && selectedisplay != 1) {
+                      v1.playbackRate = 1;
+                      v1.play();
+          //         //   document.getElementById('Play').classList.remove('on');
+          //         //   document.getElementById('rec1').classList.add('off');
+          //         //   document.getElementById('rec2').classList.remove('off');
+          //         //   document.getElementById('rec2').classList.add('on');
+                      // vYouTube1.pause();
+                  } else if (v1_index == YOUTUBE1 && selectedisplay != 1) {
+                      ytplayer1.playVideo();
+                      // v1.pause();
+                  }
+                  if (v2_index == FOLDER2 && selectedisplay != 2) {
+                      v2.playbackRate = 1;
+                      v2.play();
+                      // vYouTube2.pause();
+                  } else if (v2_index == YOUTUBE2 && selectedisplay != 2) {
+                      ytplayer2.playVideo();
+                      // vYouTube2.play();
+                      // v2.pause();
+                  }
+              } else {
+                  PlayState = OFF;
+                  //動画を停止
+                  if (v1_index == FOLDER1) {
+                      v1.pause();
+                  } else if (v1_index == YOUTUBE1) {
+                      ytplayer1.stopVideo();
+                  } 
+                  if (v2_index == FOLDER2) {
+                      v2.pause();
+                  } else if (v2_index == YOUTUBE2) {
+                      ytplayer2.stopVideo();
+                      // vYouTube2.pause();
+                  }
+              }
+          }
+      }
+      // フォルダ、YOUTUBEマークをクリックしたときのイベントハンドラ
+      function funcSelectVideo(index) {
+          if (index == FOLDER1) {
+              v1_index = FOLDER1;
+              // document.getElementById('youtube-player1').parentNode.removeChild(document.getElementById('youtube-player1'));
+              v1.style.display = "block";
           
-        }
+          } else if (index == FOLDER2) {
+              v2_index = FOLDER2;
+              // vYouTube2.style.display = "none";
+              v2.style.display = "block";
+          
+          } else if (index == YOUTUBE1) {
+              v1_index = YOUTUBE1;
+              v1.style.display = "none";
+              // vYouTube1.parentNode.appendChild(document.getElementById('youtube-player1'));
+              // document.getElementById('youtube-player1').parentNode.appendChild(document.getElementById('youtube-player1'));
 
-        //再生、停止、コマ送り
-        function funcVideoCtrl(index) {
-            if (index == STEPBACKWARD) {
-                //１コマ戻す
-                v1.currentTime = v1.currentTime - FrameAdvanceResolution;
-                v2.currentTime = v2.currentTime - FrameAdvanceResolution;
-              } else if (index == STEPFORWARD) {
-                v1.currentTime = v1.currentTime + FrameAdvanceResolution;
-                v2.currentTime = v2.currentTime + FrameAdvanceResolution;
-              } else if (index == BACKWARD) {
-                // PC版Chromeは逆再生が対応していない
-                // v1.playbackRate = v1.playbackRate - 1;
-                // v2.playbackRate = v2.playbackRate - 1;
-                v1.currentTime = v1.currentTime - 3;
-                v2.currentTime = v2.currentTime - 3;
-              } else if (index == FORWARD) {
-                v1.playbackRate = v1.playbackRate + 1;
-                v2.playbackRate = v2.playbackRate + 1;
-            } else if (index == PLAY) {
-                // 再生ボタンとポーズボタンのフォント切り替え
-                // $('#Play').find('i').toggleClass('fa-play-circle fa-pause-circle');
-                var elemplay = document.getElementById("Play");
+              const pass1 = document.form1.pass1;
+              // ytplayer1.videoId = pass1.value;
+              //var videoId = pass1.value;  //"7WmkYEZc3as";
+              var url = "https://www.youtube.com/embed/" + pass1.value;
+              var e = document.getElementById("youtube-player1");
+              e.src = url;
+              // vYouTube1.style.display = "block";
 
-                if (PlayState == OFF) {
-                    PlayState = ON;
-                    //動画を再生
-                    if (v1_index == FOLDER1) {
-                        v1.playbackRate = 1;
-                        v1.play();
-            //         //   document.getElementById('Play').classList.remove('on');
-            //         //   document.getElementById('rec1').classList.add('off');
-            //         //   document.getElementById('rec2').classList.remove('off');
-            //         //   document.getElementById('rec2').classList.add('on');
-                        // vYouTube1.pause();
-                    } else if (v1_index == YOUTUBE1) {
-                        ytplayer1.playVideo();
-                        // v1.pause();
-                    }
-                    if (v2_index == FOLDER2) {
-                        v2.playbackRate = 1;
-                        v2.play();
-                        // vYouTube2.pause();
-                    } else if (v2_index == YOUTUBE2) {
-                        ytplayer2.playVideo();
-                        // vYouTube2.play();
-                        // v2.pause();
-                    }
-                } else {
-                    PlayState = OFF;
-                    //動画を停止
-                    if (v1_index == FOLDER1) {
-                        v1.pause();
-                    } else if (v1_index == YOUTUBE1) {
-                        ytplayer1.stopVideo();
-                    } 
-                    if (v2_index == FOLDER2) {
-                        v2.pause();
-                    } else if (v2_index == YOUTUBE2) {
-                        ytplayer2.stopVideo();
-                        // vYouTube2.pause();
-                    }
-                }
-            }
-        }
-        // フォルダ、YOUTUBEマークをクリックしたときのイベントハンドラ
-        function funcSelectVideo(index) {
-            if (index == FOLDER1) {
-                v1_index = FOLDER1;
-                // document.getElementById('youtube-player1').parentNode.removeChild(document.getElementById('youtube-player1'));
-                v1.style.display = "block";
-            
-            } else if (index == FOLDER2) {
-                v2_index = FOLDER2;
-                // vYouTube2.style.display = "none";
-                v2.style.display = "block";
-            
-            } else if (index == YOUTUBE1) {
-                v1_index = YOUTUBE1;
-                v1.style.display = "none";
-                // vYouTube1.parentNode.appendChild(document.getElementById('youtube-player1'));
-                // document.getElementById('youtube-player1').parentNode.appendChild(document.getElementById('youtube-player1'));
+          } else if (index == YOUTUBE2) {
+              v2_index = YOUTUBE2;
+              v2.style.display = "none";
 
-                const pass1 = document.form1.pass1;
-                // ytplayer1.videoId = pass1.value;
-                //var videoId = pass1.value;  //"7WmkYEZc3as";
-                var url = "https://www.youtube.com/embed/" + pass1.value;
-                var e = document.getElementById("youtube-player1");
-                e.src = url;
-                // vYouTube1.style.display = "block";
-
-            } else if (index == YOUTUBE2) {
-                v2_index = YOUTUBE2;
-                v2.style.display = "none";
-
-                const pass2 = document.form2.pass2;
-                //var videoId = pass2.value;  //"7WmkYEZc3as";
-                var url = "https://www.youtube.com/embed/" + pass2.value;
-                var e = document.getElementById("youtube-player2");
-                e.src = url;
-                vYouTube2.style.display = "block";
-            } else if (index == WEBB2) {
-                var pass2 = document.form2.pass2; //https://photos.google.com/photo/AF1QipNcC6_7sVGPqPriGxBrVFhc31hOmbmjUKyBHQe5
-                v1.src = pass2;
-            }
-        }
-      </script>
-    </body>
+              const pass2 = document.form2.pass2;
+              //var videoId = pass2.value;  //"7WmkYEZc3as";
+              var url = "https://www.youtube.com/embed/" + pass2.value;
+              var e = document.getElementById("youtube-player2");
+              e.src = url;
+              vYouTube2.style.display = "block";
+          }
+      }
+    </script>
+  </body>
 </html>
 
