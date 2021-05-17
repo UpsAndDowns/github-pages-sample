@@ -1,60 +1,66 @@
 <!DOCTYPE html>
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> -->
 <html>
   <head>
-    <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!-- <link href="https://unpkg.com/sanitize.css" rel="stylesheet"/> -->
     <link href="style.css" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet" />
-    <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 
-    <title></title>
+    <title>動画比較再生</title>
   </head>
   <body style="margin: 0 auto; ">
     <div class="parent">
-      <!-- <div class="child"> -->
-      <div class="child video_pane">
-        <div class="video_container" id="v1container">
-          <video width="100%" height="100%" id="VideoID1" controls playsinline muted onTimeUpdate="handleTimeUpdate()">
-              <source src=""/>
-              <!-- ※ただしchromeやsafariではmuted属性で音が出ないようにしないと自動再生されません。 -->
-          </video>
-        </div>
-        <div class="video_container" id="v2container">
-          <video width="100%" height="100%" id="VideoID2" controls="controls" playsinline="true"muted="true" >
-            <source src=""/> 
-          </video>
-        </div>
-        <div id="slider1" class="middle">
-          <input type="range" id="input-left1" min="0" max="100" value="0">
-          <input type="range" id="input-right1" min="0" max="100" value="100">
-      
-          <div class="slider">
-            <div class="track"></div>
-            <div class="range"></div>
-            <div class="thumb left"></div>
-            <div class="thumb right"></div>
+      <div class="video_pane">
+        <div class="video_box">
+          <div class="video_container" id="v1container">
+            <video width="100%" height="100%" id="VideoID1" controls playsinline muted onTimeUpdate="handleTimeUpdate()">
+                <source src=""/>
+                <!-- ※ただしchromeやsafariではmuted属性で音が出ないようにしないと自動再生されません。 -->
+            </video>
+          </div>
+          <div class="slider_control">
+            <div id="slider1" class="middle">
+              <input type="range" id="input-left1" min="0" max="100" value="0">
+              <input type="range" id="input-right1" min="0" max="100" value="100">
+          
+              <div class="slider">
+                <div class="track"></div>
+                <div class="range"></div>
+                <div class="thumb left"></div>
+                <div class="thumb right"></div>
+              </div>
+            </div>
           </div>
         </div>
-        <div id="slider2" class="middle">
-          <input type="range" id="input-left2" min="0" max="100" value="0">
-          <input type="range" id="input-right2" min="0" max="100" value="100">
-      
-          <div class="slider">
-            <div class="track"></div>
-            <div class="range"></div>
-            <div class="thumb left"></div>
-            <div class="thumb right"></div>
+        <div class="video_box">
+          <div class="video_container" id="v2container">
+            <video width="100%" height="100%" id="VideoID2" controls="controls" playsinline="true"muted="true" >
+              <source src=""/> 
+            </video>
+          </div>
+          <div class="slider_control">
+            <div id="slider2" class="middle">
+              <input type="range" id="input-left2" min="0" max="100" value="0">
+              <input type="range" id="input-right2" min="0" max="100" value="100">
+          
+              <div class="slider">
+                <div class="track"></div>
+                <div class="range"></div>
+                <div class="thumb left"></div>
+                <div class="thumb right"></div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="player_container" align="center">
-          <button type="button" id="rangeAB" class="rangeA-B-button">
-            <font>A-B</font>
-          </button>
-        </div>
+          <!-- <div class="player_container" align="center">
+            <span id="testLeft1"></span>
+          </div>
+          <div class="player_container" align="center">
+            <span id="testRight1"></span>
+          </div> -->
       </div>
       <!-- フォルダ、YouTube、ウエブから動画を選択する -->
       <div class="child file_control_pane">
@@ -93,11 +99,11 @@
                 <input style="display:none" id="LocalFile2" type="file" accept=".mp4,.MOV"/>
             </label></form>
         </div>
-        <!-- <div class="file_container" align="center">
-          <button type="button" name="YouTube" value="YouTube" class="arrow-button" onclick="funcSelectVideo(YOUTUBE2)">
-            <i class="fab fa-youtube-square fa-3x"></i>
+        <div class="file_container" align="center">
+          <button type="button" id="rangeAB" class="arrow-button">
+            <font>A-B</font>
           </button>
-        </div> -->
+        </div>
       </div>
       <!-- コマ送り、再生、一時停止ボタンを配置 -->
       <div class="child player_control_pane">
@@ -108,7 +114,7 @@
           </button>
         </div>
         <div class="player_container" align="center">
-          <button type="button" name="Backward" value="Backward" class="arrow-button" onclick="funcVideoCtrl(STEPBACKWARD)">
+          <button type="button" id="stepBackward" value="Backward" class="arrow-button" onclick="funcVideoCtrl(STEPBACKWARD)">
             <i class="fas fa-step-backward fa-4x arrow-color"></i>
           </button>
         </div>
@@ -120,7 +126,7 @@
           </button>
         </div>
         <div class="player_container" align="center">
-          <button type="button" name="Forward" value="Forward" class="arrow-button" onclick="funcVideoCtrl(STEPFORWARD)">
+          <button type="button" id="stepForward" value="Forward" class="arrow-button" onclick="funcVideoCtrl(STEPFORWARD)">
             <i class="fas fa-step-forward fa-4x arrow-color"></i>
           </button>
         </div>
@@ -139,6 +145,17 @@
     <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
     <script type="text/javascript">
 
+      // window.onorientationchange = function () {
+      //   switch ( window.orientation ) {
+      //     case 0:
+      //       alert('画面を横にしてくださいね');
+      //       break;
+      //     case 90:
+      //       break;
+      //     case -90:
+      //       break;
+      //   }
+      // }
       window.onload = function() {
         // スクロールを禁止にする関数
         function disableScroll(event) {
@@ -184,20 +201,13 @@
               reader.addEventListener('load', event => {
                   // event.target.resultは、base64エンコードされた画像データ
                   previewElem1.setAttribute('src', event.target.result);
-
                   funcSelectVideo(FOLDER1);
               })
               // 時間の長さを取得
               const video = document.querySelector('video');
-
-              video.addEventListener('loadedmetadata', (event) => {
-                inputLeft1.max = v1.duration;
-                inputRight1.max = v1.duration;
-                console.log(v1.duration);
-              });
-
               // セットされたオブジェクトを読み込む
               reader.readAsDataURL(file);
+              videoloaded[0] = ON;
           });
 
 
@@ -225,64 +235,61 @@
               })
               // セットされたオブジェクトを読み込む
               reader.readAsDataURL(file);
+              videoloaded[1] = ON;
           });
 
       })();
 
-      var rangeABstep = 0;
+      var videoloaded = [OFF, OFF];
+      var rangeABstep = [0, 0];
       var selectedisplay = 0; // 0:None, 1:only right, 2: Only left:, 3:both
       let PlayState = OFF;
       var v1_index = FOLDER1;
       var v2_index = FOLDER2;
-      var v1 = document.getElementById('VideoID1');
-      var v2 = document.getElementById('VideoID2');
+      var vid = [document.getElementById('VideoID1'), document.getElementById('VideoID2')];
 
       // Multi Handle Range Slider
-      var inputLeft1 = document.getElementById("input-left1");
-      var inputRight1 = document.getElementById("input-right1");
-      var inputLeft2 = document.getElementById("input-left2");
-      var inputRight2 = document.getElementById("input-right2");
+      var inputLeft = [document.getElementById("input-left1"), document.getElementById("input-left2")];
+      var inputRight = [document.getElementById("input-right1"), document.getElementById("input-right2")];
 
-      var thumbLeft = document.querySelector(".slider > .thumb.left");
-      var thumbRight = document.querySelector(".slider > .thumb.right");
-      var range = document.querySelector(".slider > .range");
+      var thumbLeft = document.querySelectorAll(".slider > .thumb.left"); // SelectorAllで全ての要素をリスト配列として格納
+      var thumbRight = document.querySelectorAll(".slider > .thumb.right");
+      var range = document.querySelectorAll(".slider > .range");
 
-      function setLeftValue(e) {
-        var _this = inputLeft1,
-            min = parseInt(_this.min),
-            max = parseInt(_this.max);
+      function setLeftValue(index) {
+        var _this = document.getElementById("input-left"+index),  // 前が文字列で後ろが数値だと文字列になる
+        min = parseInt(_this.min),
+        max = parseInt(_this.max);
 
-        _this.value = Math.min(parseInt(_this.value), parseInt(inputRight1.value) - 1);
+        _this.value = Math.min(parseInt(_this.value), parseInt(document.getElementById("input-right"+index).value) - 1);
 
         var percent = ((_this.value - min) / (max - min)) * 100;
 
-        thumbLeft.style.left = percent + "%";
-        range.style.left = percent + "%";
+        thumbLeft[index-1].style.left = percent + "%";
+        range[index-1].style.left = percent + "%";
       }
-      setLeftValue();
+      setLeftValue(1);
+      setLeftValue(2);
 
-      function setRightValue() {
-        var _this = inputRight1,
-          min = parseInt(_this.min),
-          max = parseInt(_this.max);
+      function setRightValue(index) {
+        var _this = document.getElementById("input-right"+index),  // 前が文字列で後ろが数値だと文字列になる
+        min = parseInt(_this.min),
+        max = parseInt(_this.max);
 
-        _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft1.value) + 1);
+        _this.value = Math.max(parseInt(_this.value), parseInt(document.getElementById("input-left"+index).value) + 1);
 
         var percent = ((_this.value - min) / (max - min)) * 100;
 
-        thumbRight.style.right = (100 - percent) + "%";
-        range.style.right = (100 - percent) + "%";
+        thumbRight[index-1].style.right = (100 - percent) + "%";
+        range[index-1].style.right = (100 - percent) + "%";
       }
-      setRightValue();
+      setRightValue(1);
+      setRightValue(2);
 
-      inputLeft1.addEventListener("input", setLeftValue);
-      inputRight1.addEventListener("input", setRightValue);
-      
-      // Multi Handle Range Slider2
-
-
-      // inputLeft2.addEventListener("input", setLeftValue);
-      // inputRight2.addEventListener("input", setRightValue);
+      // inputLeft[0].addEventListener("input", setLeftValue.bind(null, 1),false);
+      // inputRight[0].addEventListener("input", setRightValue.bind(null, 1),false);
+      // inputLeft[1].addEventListener("input", setLeftValue.bind(null, 2),false);
+      // inputRight[1].addEventListener("input", setRightValue.bind(null, 2),false);
       
 
       document.getElementById('slider1').addEventListener('click', SelectedV1);
@@ -291,10 +298,10 @@
         // const tgt = e.target;
         // console.log(document.getElementById('v1container').style.borderColor);
         if(document.getElementById('v1container').style.borderColor!="red") {
-          document.getElementById('v1container').style.borderColor="red";
+          document.getElementById('v1container').style.borderColor ="red";
           selectedisplay |= 2;
         } else {
-          document.getElementById('v1container').style.borderColor="gray";
+          document.getElementById('v1container').style.borderColor="transparent";
           selectedisplay &= 1;
         }
       }
@@ -306,110 +313,189 @@
           document.getElementById('v2container').style.borderColor="red";
           selectedisplay |= 1;
         } else {
-          document.getElementById('v2container').style.borderColor="gray";
+          document.getElementById('v2container').style.borderColor="transparent";
           selectedisplay &= 2;
         }
       }
 
       function handleTimeUpdate(e)
       {
-        if (v1.currentTime < inputLeft1.value) {
-          v1.currentTime = inputLeft1.value;
-          v1.play();
+        for (let i = 0; i < 2; i++) {
+          if (vid[i].currentTime < inputLeft[i].value / 100 * vid[i].duration) {
+            if (vid[i].paused) {
+              vid[i].currentTime = inputLeft[i].value / 100 * vid[i].duration;
+            } else {
+              vid[i].currentTime = inputLeft[i].value / 100 * vid[i].duration;
+              vid[i].play();
+            }
+          }
+          if (vid[i].currentTime > inputRight[i].value / 100 * vid[i].duration) {
+            vid[i].currentTime = inputLeft[i].value / 100 * vid[i].duration;
+          }
         }
-        if (inputRight1.value < v1.currentTime) {
-          v1.currentTime = inputLeft1.value;
-        }
-
       }
 
       document.getElementById('rangeAB').addEventListener('click', function() {
-        if (rangeABstep == 0) {
-          inputLeft1.value = v1.currentTime;
-          rangeABstep++;
-        } else if (rangeABstep == 1) {
-          inputRight1.value = v1.currentTime;
-          rangeABstep++;
-        } else if (rangeABstep == 2) {
-          inputLeft1.value = 0;
-          inputRight1.value = v1.max;
-          rangeABstep = 0;
-        }
-        setLeftValue();
-        setRightValue();
-        console.log("ほげほげ1",rangeABstep);
+        for (let i = 0; i < 2; i++) {
+          if (selectedisplay != (i + 1)) {
+            if (rangeABstep[i] == 0) {
+              inputLeft[i].value = vid[i].currentTime / vid[i].duration * 100;
+              rangeABstep[i]++;
+            } else if (rangeABstep[i] == 1) {
+              inputRight[i].value = vid[i].currentTime / vid[i].duration * 100;
+              rangeABstep[i]++;
+            } else if (rangeABstep[i] == 2) {
+              inputLeft[i].value = inputLeft[i].min;
+              inputRight[i].value = inputRight[i].max;
+              rangeABstep[i] = 0;
+            }
+            setLeftValue(i + 1);
+            setRightValue(i + 1);
+          }        }
       });
       
-
       document.getElementById('Play').addEventListener('click', fav);
       // 再生ボタンとポーズボタンのフォント切り替え
       function fav(e) {
         const tgt = e.target;
         tgt.classList.toggle('fa-play-circle');
-        tgt.classList.toggle('fa-pause-circle');
-        
+        tgt.classList.toggle('fa-pause-circle');        
       }
+
+      var long_press_timer1;
+      var long_press_timer2;
+      const ua = navigator.userAgent.toLowerCase();
+      const isSP = /iphone|ipod|ipad|android/.test(ua);
+      const eventStart = isSP ? 'touchstart' : 'mousedown';
+      const eventEnd   = isSP ? 'touchend' : 'mouseup';
+      const eventLeave = isSP ? 'touchmove' : 'mouseleave';
+      var b_stepBackward = document.getElementById('stepBackward');
+      var b_stepForward = document.getElementById('stepForward');
+      b_stepBackward.addEventListener(eventStart, e => {
+        e.preventDefault();
+          if (selectedisplay != 1) vid[0].currentTime -= FrameAdvanceResolution;
+          if (selectedisplay != 2) vid[1].currentTime -= FrameAdvanceResolution;
+        long_press_timer1 = setInterval(() => {
+          //１コマ戻す
+          if (selectedisplay != 1) vid[0].currentTime -= FrameAdvanceResolution;
+          if (selectedisplay != 2) vid[1].currentTime -= FrameAdvanceResolution;
+        }, 100);
+      })
+      b_stepBackward.addEventListener(eventEnd, e => {
+        e.preventDefault();
+        clearInterval(long_press_timer1);    //インターバルタイマのクリア
+      })
+      b_stepBackward.addEventListener(eventLeave, e => {
+        e.preventDefault();
+        let el;
+        el = isSP ? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY) : b;
+        if (!isSP || el !== b_stepBackward) {
+          clearInterval(long_press_timer1);    //インターバルタイマのクリア
+        }
+      })
+
+      b_stepForward.addEventListener(eventStart, e => {
+        e.preventDefault();
+          if (selectedisplay != 1) vid[0].currentTime += FrameAdvanceResolution;
+          if (selectedisplay != 2) vid[1].currentTime += FrameAdvanceResolution; 
+        long_press_timer2 = setInterval(() => {
+          //１コマ送る
+          if (selectedisplay != 1) vid[0].currentTime += FrameAdvanceResolution;
+          if (selectedisplay != 2) vid[1].currentTime += FrameAdvanceResolution; 
+        }, 100);
+      })
+      b_stepForward.addEventListener(eventEnd, e => {
+        e.preventDefault();
+        clearInterval(long_press_timer2);    //インターバルタイマのクリア
+      })
+      b_stepForward.addEventListener(eventLeave, e => {
+        e.preventDefault();
+        let el;
+        el = isSP ? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY) : b;
+        if (!isSP || el !== b_stepForward) {
+          clearInterval(long_press_timer2);    //インターバルタイマのクリア
+        }
+      })
 
       //再生、停止、コマ送り
       function funcVideoCtrl(index) {
           if (index == STEPBACKWARD) {
-              //１コマ戻す
-              if (selectedisplay != 1) v1.currentTime = v1.currentTime - FrameAdvanceResolution;
-              if (selectedisplay != 2) v2.currentTime = v2.currentTime - FrameAdvanceResolution;
+              // //１コマ戻す
+              // if (selectedisplay != 1) vid[0].currentTime -= FrameAdvanceResolution;
+              // if (selectedisplay != 2) vid[1].currentTime -= FrameAdvanceResolution;
           } else if (index == STEPFORWARD) {
-              if (selectedisplay != 1) v1.currentTime = v1.currentTime + FrameAdvanceResolution;
-              if (selectedisplay != 2) v2.currentTime = v2.currentTime + FrameAdvanceResolution; 
+              // if (selectedisplay != 1) vid[0].currentTime += FrameAdvanceResolution;
+              // if (selectedisplay != 2) vid[1].currentTime += FrameAdvanceResolution; 
           } else if (index == BACKWARD) {
-              // PC版Chromeは逆再生が対応していない
-              if (selectedisplay != 1) v1.playbackRate = v1.playbackRate - 1;
-              if (selectedisplay != 2) v2.playbackRate = v2.playbackRate - 1;
-              // v1.currentTime = v1.currentTime - 3;
-              // v2.currentTime = v2.currentTime - 3;
+              // if (isSP) {
+                if (selectedisplay != 1) {
+                  if (vid[0].playbackRate > 0) {  // 再生速度が0より進む方向
+                    vid[0].playbackRate = -1;
+                  } else {
+                    vid[0].playbackRate -= 1;
+                  }
+                } 
+                if (selectedisplay != 2) {
+                  if (vid[1].playbackRate > 0) {  // 再生速度が0より進む方向
+                    vid[1].playbackRate = -1;
+                  } else {
+                    vid[1].playbackRate -= 1;
+                  }
+                }
+              // } else {
+                // PC版Chromeは逆再生が対応していない
+                // vid[0].currentTime = vid[0].currentTime - 3;
+                // vid[1].currentTime = vid[1].currentTime - 3;
+              // }
           } else if (index == FORWARD) {
-              if (selectedisplay != 1) v1.playbackRate = v1.playbackRate + 1;
-              if (selectedisplay != 2) v2.playbackRate = v2.playbackRate + 1;
+              // if (selectedisplay != 1) vid[0].playbackRate = vid[0].playbackRate + 1;
+              // if (selectedisplay != 2) vid[1].playbackRate = vid[1].playbackRate + 1;
+              if (selectedisplay != 1) {
+                  if (vid[0].playbackRate < 0) {  // 再生設定が早戻し中
+                    vid[0].playbackRate = 1;
+                  } else {
+                    vid[0].playbackRate += 1;
+                  }
+                } 
+                if (selectedisplay != 2) {
+                  if (vid[1].playbackRate < 0) {  // 再生設定が早戻し中
+                    vid[1].playbackRate = 1;
+                  } else {
+                    vid[1].playbackRate += 1;
+                  }
+                }
           } else if (index == PLAY) {
               // 再生ボタンとポーズボタンのフォント切り替え
               // $('#Play').find('i').toggleClass('fa-play-circle fa-pause-circle');
-              var elemplay = document.getElementById("Play");
+              // var elemplay = document.getElementById("Play");
 
               if (PlayState == OFF) {
                   PlayState = ON;
                   //動画を再生
-                  if (v1_index == FOLDER1 && selectedisplay != 1) {
-                      v1.playbackRate = 1;
-                      v1.play();
-          //         //   document.getElementById('Play').classList.remove('on');
-          //         //   document.getElementById('rec1').classList.add('off');
-          //         //   document.getElementById('rec2').classList.remove('off');
-          //         //   document.getElementById('rec2').classList.add('on');
-                      // vYouTube1.pause();
-                  } else if (v1_index == YOUTUBE1 && selectedisplay != 1) {
-                      ytplayer1.playVideo();
-                      // v1.pause();
-                  }
-                  if (v2_index == FOLDER2 && selectedisplay != 2) {
-                      v2.playbackRate = 1;
-                      v2.play();
-                      // vYouTube2.pause();
-                  } else if (v2_index == YOUTUBE2 && selectedisplay != 2) {
-                      ytplayer2.playVideo();
-                      // vYouTube2.play();
-                      // v2.pause();
+                  if (selectedisplay == 2) {
+                      vid[0].playbackRate = 1;
+                      if (videoloaded[0] == ON) vid[0].play();
+                  } else if (selectedisplay == 1) {
+                      vid[1].playbackRate = 1;
+                      if (videoloaded[1] == ON) vid[1].play();
+                  } else {
+                    if (videoloaded[0] == ON && videoloaded[1] == ON) {
+                      vid[0].playbackRate = 1;
+                      vid[1].playbackRate = 1;
+                      vid[0].play();
+                      vid[1].play();
+                    }
                   }
               } else {
                   PlayState = OFF;
                   //動画を停止
-                  if (v1_index == FOLDER1) {
-                      v1.pause();
-                  } else if (v1_index == YOUTUBE1) {
-                      ytplayer1.stopVideo();
-                  } 
-                  if (v2_index == FOLDER2) {
-                      v2.pause();
-                  } else if (v2_index == YOUTUBE2) {
-                      ytplayer2.stopVideo();
-                      // vYouTube2.pause();
+                  if (videoloaded[0] == ON && videoloaded[1] == ON) {
+                    vid[0].pause();
+                    vid[1].pause();
+                  } else if (videoloaded[0] == ON) {
+                      vid[0].pause();
+                  } else if (videoloaded[1] == ON) {
+                      vid[1].pause();
                   }
               }
           }
@@ -419,37 +505,12 @@
           if (index == FOLDER1) {
               v1_index = FOLDER1;
               // document.getElementById('youtube-player1').parentNode.removeChild(document.getElementById('youtube-player1'));
-              v1.style.display = "block";
+              vid[0].style.display = "block";
           
           } else if (index == FOLDER2) {
               v2_index = FOLDER2;
               // vYouTube2.style.display = "none";
-              v2.style.display = "block";
-          
-          } else if (index == YOUTUBE1) {
-              v1_index = YOUTUBE1;
-              v1.style.display = "none";
-              // vYouTube1.parentNode.appendChild(document.getElementById('youtube-player1'));
-              // document.getElementById('youtube-player1').parentNode.appendChild(document.getElementById('youtube-player1'));
-
-              const pass1 = document.form1.pass1;
-              // ytplayer1.videoId = pass1.value;
-              //var videoId = pass1.value;  //"7WmkYEZc3as";
-              var url = "https://www.youtube.com/embed/" + pass1.value;
-              var e = document.getElementById("youtube-player1");
-              e.src = url;
-              // vYouTube1.style.display = "block";
-
-          } else if (index == YOUTUBE2) {
-              v2_index = YOUTUBE2;
-              v2.style.display = "none";
-
-              const pass2 = document.form2.pass2;
-              //var videoId = pass2.value;  //"7WmkYEZc3as";
-              var url = "https://www.youtube.com/embed/" + pass2.value;
-              var e = document.getElementById("youtube-player2");
-              e.src = url;
-              vYouTube2.style.display = "block";
+              vid[1].style.display = "block";          
           }
       }
     </script>
