@@ -34,7 +34,7 @@ html, body{
     /* position: relative; */
     /* flex-grow: 1; */
     width: 80vw;
-    height: 50vh;
+    height: 70vh;
     /* border: 3px; */
     /* max-height: 400px; */
     background-color: #505050;
@@ -43,20 +43,32 @@ html, body{
     /* background-size: cover; */
     opacity: 1;
   }
-  .video_container {
-    display: flex;
+  .video_box {
+    /* display: flex; */
     /* flex-grow: 1; */
     width:	50%;
-    height: 75%;
-    border: solid 3px gray;
+    height: 100%;
     /* opacity: 1; */
+    /* object-fit: cover; */
+  }
+  .video_container {
+    width:	100%;
+    height: 85%;
+    border: solid 3px transparent;
+    object-fit: cover;
+  }
+  .slider_control {
+    width:	100%;
+    height: 13%;
+    padding-left: 1%;
+    padding-right: 1%;
     object-fit: cover;
   }
 
   .file_control_pane {
     /* position: relative; */
-    width: 18vw;
-    /* height: 10vh; */
+    width: 19vw;
+    height: 70vh;
     /* z-index: 10; */
   }
   .player_control_pane {
@@ -66,6 +78,8 @@ html, body{
   .file_container {
     display: inline-block;
     width: calc(95% / 2);
+    margin-top: 1%;
+    margin-bottom: 1%;
   }
   .player_container {
     display: inline-block;
@@ -87,13 +101,26 @@ html, body{
     display: flex;
     flex-wrap: wrap;
     width: 100vw;
+    max-height: 60vh;
     /* background-size: cover; */
     opacity: 1;
   }
+  .video_box {
+    width:	100vw;
+    max-height: 50vh;
+  }
   .video_container {
     display: flex;
-    width:	90%;
-    height: auto;
+    width:	100vw;
+    max-height: 80vh;
+    border: solid 3px transparent;
+  }
+  .slider_control {
+    width:	100%;
+    height: 13%;
+    padding-left: 1%;
+    padding-right: 1%;
+    object-fit: cover;
   }
   .file_control_pane {
     width: 18vw;
@@ -107,6 +134,8 @@ html, body{
   .file_container {
     display: inline-block;
     width: calc(90% / 2);
+    margin-top: 1%;
+    margin-bottom: 1%;
   }
   .player_container {
     display: inline-block;
@@ -177,16 +206,14 @@ html, body{
 
 .middle {
 	position: relative;
-  padding-left: 1%;
-  padding-right: 1%;
-	width: 50%;
+	width: 100%;
 }
 
 .slider {
 	position: relative;
 	z-index: 1;
 	height: 5px;
-	margin: 0 18px;
+	margin: 10px 18px;
 }
 .slider > .track {
 	position: absolute;
@@ -211,14 +238,15 @@ html, body{
 .slider > .thumb {
 	position: absolute;
 	z-index: 3;
-	width: 20px;
-	height: 20px;
-	top: 3px;
+	width: 25px;
+	height: 25px;
+	top: 1px;
 	/* bottom: 0; */
 	background-color: #0000ff;
-	border-radius: 50%;
+	border-radius: 100%;
 	box-shadow: 0 0 0 0 rgba(98,0,238,.1);
 	transition: box-shadow .3s ease-in-out;
+  /* border: 1px solid white; */
 }
 .slider > .thumb.left {
 	left: 7%;
