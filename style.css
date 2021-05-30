@@ -1,92 +1,18 @@
-/* すべてのタグに対して指定(CSS Reset) */
-/* * { */
-  /* display: flex; */
-  /* box-sizing:border-box; */
-  /* margin:0; */
-  /* padding:0; */
-/* } */
 * {
-  /* display: flex; */
-  box-sizing:border-box;
+  box-sizing: border-box;
   --hl: 0;
   --nothl: calc(1 - var(--hl));
   margin: 0;
-  padding:0;
+  padding: 0;
   font: inherit;
 }
-html, body{
+html,
+body {
   overflow: hidden;
 }
-@media (orientation: landscape) {  /* 横向き */
-  .parent {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .child {
-    flex-grow: 1;
-  }
-  .child:last-child {
-    width: 100%;
-  }
-  .video_pane {
-    display: flex;
-    flex-wrap: wrap;
-    /* position: relative; */
-    /* flex-grow: 1; */
-    width: 80vw;
-    height: 70vh;
-    /* border: 3px; */
-    /* max-height: 400px; */
-    background-color: #505050;
-    /* background-image: url(../static/video_demo.jpg); */
-    /* background-repeat: no-repeat; */
-    /* background-size: cover; */
-    opacity: 1;
-  }
-  .video_box {
-    /* display: flex; */
-    /* flex-grow: 1; */
-    width:	50%;
-    height: 100%;
-    /* opacity: 1; */
-    /* object-fit: cover; */
-  }
-  .video_container {
-    width:	100%;
-    height: 85%;
-    border: solid 3px transparent;
-    object-fit: cover;
-  }
-  .slider_control {
-    width:	100%;
-    height: 13%;
-    padding-left: 1%;
-    padding-right: 1%;
-    object-fit: cover;
-  }
 
-  .file_control_pane {
-    /* position: relative; */
-    width: 19vw;
-    height: 70vh;
-    /* z-index: 10; */
-  }
-  .player_control_pane {
-    height: 18vh;
-    /* z-index: 10; */
-  }
-  .file_container {
-    display: inline-block;
-    width: calc(95% / 2);
-    margin-top: 1%;
-    margin-bottom: 1%;
-  }
-  .player_container {
-    display: inline-block;
-    width: calc(95% / 5);
-  }
-}
-@media (orientation: portrait) { /* 縦向き */
+@media (orientation: landscape) {
+  /* 横向き */
   .parent {
     display: flex;
     flex-wrap: wrap;
@@ -95,28 +21,106 @@ html, body{
     flex-grow: 1;
   }
   .child:last-child {
+    /* position: absolute; */
+    /* bottom: 0; */
     width: 100%;
   }
   .video_pane {
     display: flex;
     flex-wrap: wrap;
     width: 100vw;
-    max-height: 60vh;
+    height: 80vh;
+    background-color: #505050;
+    opacity: 1;
+    margin: 0 auto;
+  }
+  .video_box {
+    width: 50%;
+    height: 100%;
+    background-color: #efefef;
+    border: solid 3px transparent;
+  }
+  .video_container {
+    position: relative;
+    width: 100%;
+    height: 85%;
+    border: solid 3px transparent;
+    object-fit: cover;
+    background-color: #efefef;
+  }
+  .slider_control {
+    width: 100%;
+    height: 13%;
+    padding-left: 1%;
+    padding-right: 1%;
+    object-fit: cover;
+    background-color: #efefef;
+  }
+
+  .file_control_pane {
+    width: 19vw;
+    height: 70vh;
+  }
+  .player_control_pane {
+    display: flex;
+    /* position: absolute; */
+    /* bottom: 0px; */
+    height: 20vh;
+    justify-content: space-around;
+    align-items: center;
+    border: solid 3px transparent;
+    /* z-index: 10; */
+  }
+  .file_container {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    display: inline-block;
+    width: 80px;
+    padding: 5px;
+    z-index: 10;
+  }
+  .player_container {
+    /* display: inline-block; */
+    width: calc(90% / 5);
+  }
+}
+@media (orientation: portrait) {
+  /* 縦向き */
+  .parent {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .child {
+    flex-grow: 1;
+  }
+  .child:last-child {
+    /* position: absolute; */
+    /* bottom: 0; */
+    width: 100%;
+  }
+  .video_pane {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: 90vh;
     /* background-size: cover; */
     opacity: 1;
   }
   .video_box {
-    width:	100vw;
-    max-height: 50vh;
+    position: relative;
+    width: 100%;
+    height: 50%;
   }
   .video_container {
-    display: flex;
-    width:	100vw;
-    max-height: 80vh;
+    /* display: flex; */
+    width: 100%;
+    height: 80%;
     border: solid 3px transparent;
+    background-color: #efefef;
   }
   .slider_control {
-    width:	100%;
+    width: 100%;
     height: 13%;
     padding-left: 1%;
     padding-right: 1%;
@@ -127,32 +131,42 @@ html, body{
     height: 20vh;
   }
   .player_control_pane {
-    width: 18vw;
-    height: 20vh;
+    display: flex;
+    width: 100vw;
+    height: 10vh;
+    justify-content: space-around;
+    align-items: center;
     /* z-index: 10; */
   }
+  
   .file_container {
+    position: absolute;
+    top: 0;
+    right: 15px;
     display: inline-block;
-    width: calc(90% / 2);
-    margin-top: 1%;
-    margin-bottom: 1%;
+    width: 80px;
+    padding: 5px;
+    z-index: 10;
   }
   .player_container {
-    display: inline-block;
+    /* display: inline-block; */
     width: calc(90% / 5);
   }
 }
 
 .arrow-button {
+  position: relative;
   border: 0px;
   align-items: center;
-  font-size: 14px;
+  /* font-size: 10px; */
   display: flex;
   justify-content: center;
-  width: 54px;
+  /* margin: 0 10px; */ /* フォルダ左右の余白に影響 */
+  /* width: 54px; */
+  width: 90%;
   height: 54px;
   background: #efefef;
-  border-radius: 100%;
+  border-radius: 5%;
   opacity: 0.8;
   outline: none;
   box-shadow: 2px 2px 4px 4px #888888;
@@ -203,81 +217,80 @@ html, body{
   opacity: 0; /* 完全に透明 */
 }
 
-
 .middle {
-	position: relative;
-	width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .slider {
-	position: relative;
-	z-index: 1;
-	height: 5px;
-	margin: 10px 18px;
+  position: relative;
+  z-index: 1;
+  height: 5px;
+  margin: 10px 18px;
 }
 .slider > .track {
-	position: absolute;
-	z-index: 1;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	border-radius: 3px;
-	background-color: #bdbcbc;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+  background-color: #bdbcbc;
 }
 .slider > .range {
-	position: absolute;
-	z-index: 2;
-	left: 7%;
-	right: 7%;
-	top: 0;
-	bottom: 0;
-	border-radius: 3px;
-	background-color: #0000ff;
+  position: absolute;
+  z-index: 2;
+  left: 7%;
+  right: 7%;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+  background-color: #0000ff;
 }
 .slider > .thumb {
-	position: absolute;
-	z-index: 3;
-	width: 25px;
-	height: 25px;
-	top: 1px;
-	/* bottom: 0; */
-	background-color: #0000ff;
-	border-radius: 100%;
-	box-shadow: 0 0 0 0 rgba(98,0,238,.1);
-	transition: box-shadow .3s ease-in-out;
+  position: absolute;
+  z-index: 3;
+  width: 25px;
+  height: 25px;
+  top: 1px;
+  /* bottom: 0; */
+  background-color: #0000ff;
+  border-radius: 100%;
+  box-shadow: 0 0 0 0 rgba(98, 0, 238, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
   /* border: 1px solid white; */
 }
 .slider > .thumb.left {
-	left: 7%;
-	transform: translate(-15px, -10px);
+  left: 7%;
+  transform: translate(-15px, -10px);
 }
 .slider > .thumb.right {
-	right: 7%;
-	transform: translate(15px, -10px);
+  right: 7%;
+  transform: translate(15px, -10px);
 }
 .slider > .thumb.hover {
-	box-shadow: 0 0 0 20px rgba(98,0,238,.1);
+  box-shadow: 0 0 0 20px rgba(98, 0, 238, 0.1);
 }
 .slider > .thumb.active {
-	box-shadow: 0 0 0 40px rgba(98,0,238,.2);
+  box-shadow: 0 0 0 40px rgba(98, 0, 238, 0.2);
 }
 
-input[type=range] {
-	position: absolute;
-	pointer-events: none;
-	-webkit-appearance: none;
-	z-index: 2;
-	height: 10px;
-	width: 100%;
-	opacity: 0;
+input[type='range'] {
+  position: absolute;
+  pointer-events: none;
+  -webkit-appearance: none;
+  z-index: 2;
+  height: 10px;
+  width: 100%;
+  opacity: 0;
 }
-input[type=range]::-webkit-slider-thumb {
-	pointer-events: all;
-	width: 30px;
-	height: 30px;
-	border-radius: 0;
-	border: 0 none;
-	background-color: red;
-	-webkit-appearance: none;
+input[type='range']::-webkit-slider-thumb {
+  pointer-events: all;
+  width: 30px;
+  height: 30px;
+  border-radius: 0;
+  border: 0 none;
+  background-color: red;
+  -webkit-appearance: none;
 }
