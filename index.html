@@ -318,12 +318,14 @@
           document.getElementById('video_box1').style.backgroundColor = 'red';
           document.getElementById('player_control').style.borderColor = 'red';
           document.getElementById('player_control').style.backgroundColor = 'red';
+          b_rangeAB[1].disabled = true;
           selectedisplay = 2;
         } else {
           document.getElementById('video_box1').style.borderColor = 'transparent';
           document.getElementById('video_box1').style.backgroundColor = 'transparent';
           document.getElementById('player_control').style.borderColor = 'transparent';
           document.getElementById('player_control').style.backgroundColor = 'transparent';
+          b_rangeAB[1].disabled = false;
           selectedisplay = 0;
         }
         document.getElementById('video_box2').style.borderColor = 'transparent';
@@ -338,12 +340,14 @@
           document.getElementById('video_box2').style.borderColor = 'green';
           document.getElementById('player_control').style.borderColor = 'green';
           document.getElementById('player_control').style.backgroundColor = 'green';
+          b_rangeAB[0].disabled = true;
           selectedisplay = 1;
         } else {
           document.getElementById('video_box2').style.borderColor = 'transparent';
           document.getElementById('video_box2').style.backgroundColor = 'transparent';
           document.getElementById('player_control').style.borderColor = 'transparent';
           document.getElementById('player_control').style.backgroundColor = 'transparent';
+          b_rangeAB[0].disabled = false;
           selectedisplay = 0;
         }
         document.getElementById('video_box1').style.borderColor = 'transparent';
