@@ -240,7 +240,7 @@
           reader.addEventListener('load', (event) => {
             // event.target.resultは、base64エンコードされた画像データ
             // previewElem2.setAttribute('src', event.target.result);
-            previewElem2.src = file.name;
+            previewElem2.src = URL.createObjectURL(file);
             funcSelectVideo(FOLDER2);
           });
           // セットされたオブジェクトを読み込む
@@ -315,29 +315,39 @@
         // console.log(document.getElementById('v1container').style.borderColor);
         if (document.getElementById('video_box1').style.borderColor != 'red') {
           document.getElementById('video_box1').style.borderColor = 'red';
+          document.getElementById('video_box1').style.backgroundColor = 'red';
           document.getElementById('player_control').style.borderColor = 'red';
+          document.getElementById('player_control').style.backgroundColor = 'red';
           selectedisplay = 2;
         } else {
           document.getElementById('video_box1').style.borderColor = 'transparent';
+          document.getElementById('video_box1').style.backgroundColor = 'transparent';
           document.getElementById('player_control').style.borderColor = 'transparent';
+          document.getElementById('player_control').style.backgroundColor = 'transparent';
           selectedisplay = 0;
         }
         document.getElementById('video_box2').style.borderColor = 'transparent';
+        document.getElementById('video_box2').style.backgroundColor = 'transparent';
       }
 
       document.getElementById('slider2').addEventListener('click', SelectedV2);
       // sliderをクリックして画面を選択
       function SelectedV2(e) {
         if (document.getElementById('video_box2').style.borderColor != 'green') {
+          document.getElementById('video_box2').style.backgroundColor = 'green';
           document.getElementById('video_box2').style.borderColor = 'green';
           document.getElementById('player_control').style.borderColor = 'green';
+          document.getElementById('player_control').style.backgroundColor = 'green';
           selectedisplay = 1;
         } else {
           document.getElementById('video_box2').style.borderColor = 'transparent';
+          document.getElementById('video_box2').style.backgroundColor = 'transparent';
           document.getElementById('player_control').style.borderColor = 'transparent';
+          document.getElementById('player_control').style.backgroundColor = 'transparent';
           selectedisplay = 0;
         }
         document.getElementById('video_box1').style.borderColor = 'transparent';
+        document.getElementById('video_box1').style.backgroundColor = 'transparent';
       }
 
       function handleTimeUpdate(e) {
