@@ -428,6 +428,10 @@
       var b_stepForward = document.getElementById('stepForward');
       b_stepBackward.addEventListener(eventStart, (e) => {
         e.preventDefault();
+        if (PlayState == ON) {   // 再生されてたら一時停止
+            funcVideoCtrl(PLAY);
+          }
+
         if (selectedisplay != 1) vid[0].currentTime -= FrameAdvanceResolution;
         if (selectedisplay != 2) vid[1].currentTime -= FrameAdvanceResolution;
         long_press_timer1 = setInterval(() => {
@@ -451,6 +455,10 @@
 
       b_stepForward.addEventListener(eventStart, (e) => {
         e.preventDefault();
+        if (PlayState == ON) {   // 再生されてたら一時停止
+            funcVideoCtrl(PLAY);
+          }
+
         if (selectedisplay != 1) vid[0].currentTime += FrameAdvanceResolution;
         if (selectedisplay != 2) vid[1].currentTime += FrameAdvanceResolution;
         long_press_timer2 = setInterval(() => {
