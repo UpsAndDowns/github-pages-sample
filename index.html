@@ -42,6 +42,7 @@
               controls
               playsinline
               muted
+              loop
               onTimeUpdate="handleTimeUpdate()"
             >
               <source src="" />
@@ -81,7 +82,7 @@
                 </button>
               </div>
             </div>
-            <video width="100%" height="100%" id="VideoID2" controls="controls" playsinline="true" muted="true">
+            <video width="100%" height="100%" id="VideoID2" controls="controls" playsinline="true" muted="true" loop>
               <source src="" />
             </video>
           </div>
@@ -113,7 +114,7 @@
       <!-- コマ送り、再生、一時停止ボタンを配置 -->
       <div id="player_control" class="child player_control_pane">
         <div class="player_container" align="center">
-          <button type="button" name="Backward" value="Backward" class="arrow-button fas fa-backward fa-3x" onclick="funcVideoCtrl(BACKWARD)">
+          <button type="button" id="Backward" value="Backward" class="arrow-button fas fa-backward fa-3x" onclick="funcVideoCtrl(BACKWARD)">
           </button>
         </div>
         <div class="player_container" align="center">
@@ -141,7 +142,7 @@
           </button>
         </div>
         <div class="player_container" align="center">
-          <button type="button" name="Forward" value="Forward" class="arrow-button fas fa-forward fa-3x" onclick="funcVideoCtrl(FORWARD)">
+          <button type="button" id="Forward" value="Forward" class="arrow-button fas fa-forward fa-3x" onclick="funcVideoCtrl(FORWARD)">
           </button>
         </div>
       </div>
@@ -170,6 +171,21 @@
           event.preventDefault();
         }
       };
+      // /* ピッチインピッチアウトによる拡大縮小を禁止 */
+      // document.documentElement.addEventListener('touchstart', function (e) {
+      //   if (e.touches.length >= 2) {e.preventDefault();}
+      // },  {passive: false} );
+
+      // /* ダブルタップによる拡大を禁止 */
+      // var t = 0;
+      // document.documentElement.addEventListener('touchend', function (e) {
+      //   var now = new Date().getTime();
+      //   if ((now - t) < 350){
+      //     e.preventDefault();
+      //   }
+      //   t = now;
+      // }, false);
+
       const ON = 1;
       const OFF = 0;
       const STEPFORWARD = 1;
@@ -214,7 +230,13 @@
             funcSelectVideo(FOLDER1);
           });
           // 時間の長さを取得
-          // const video = document.querySelector('video');
+          // let video = document.querySelector('video');
+          // video.addEventListener('loadedmetadata', function(e) {
+          //   console.log(e)
+          //   e.target.play(); // iPhoneでサムネを出したい。
+          //   setTimeout(function(){
+          //     e.tagert.pause();
+          //   }, 500);
           // セットされたオブジェクトを読み込む
           reader.readAsDataURL(file);
           videoloaded[0] = ON;
@@ -330,6 +352,7 @@
         }
         document.getElementById('video_box2').style.borderColor = 'transparent';
         document.getElementById('video_box2').style.backgroundColor = 'transparent';
+        b_rangeAB[0].disabled = false;
       }
 
       document.getElementById('slider2').addEventListener('click', SelectedV2);
@@ -352,6 +375,7 @@
         }
         document.getElementById('video_box1').style.borderColor = 'transparent';
         document.getElementById('video_box1').style.backgroundColor = 'transparent';
+        b_rangeAB[1].disabled = false;
       }
 
       function handleTimeUpdate(e) {
@@ -424,8 +448,64 @@
       const eventStart = isSP ? 'touchstart' : 'mousedown';
       const eventEnd = isSP ? 'touchend' : 'mouseup';
       const eventLeave = isSP ? 'touchmove' : 'mouseleave';
+      var b_Backward = document.getElementById('Backward');
+      var b_Forward = document.getElementById('Forward');
       var b_stepBackward = document.getElementById('stepBackward');
       var b_stepForward = document.getElementById('stepForward');
+
+      b_Backward.addEventListener(eventStart, (e) => {
+        e.preventDefault();
+        if (PlayState == ON) {   // 再生されてたら一時停止
+            funcVideoCtrl(PLAY);
+          }
+
+        if (selectedisplay != 1) vid[0].currentTime -= FrameAdvanceResolution * 4;
+        if (selectedisplay != 2) vid[1].currentTime -= FrameAdvanceResolution * 4;
+        Backward_press_timer = setInterval(() => {
+          //１コマ戻す
+          if (selectedisplay != 1) vid[0].currentTime -= FrameAdvanceResolution * 4;
+          if (selectedisplay != 2) vid[1].currentTime -= FrameAdvanceResolution * 4;
+        }, 100);
+      });
+      b_Backward.addEventListener(eventEnd, (e) => {
+        e.preventDefault();
+        clearInterval(Backward_press_timer); //インターバルタイマのクリア
+      });
+      b_Backward.addEventListener(eventLeave, (e) => {
+        e.preventDefault();
+        let el;
+        el = isSP ? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY) : b_Backward;
+        if (!isSP || el !== b_Backward) {
+          clearInterval(Backward_press_timer); //インターバルタイマのクリア
+        }
+      });
+      b_Forward.addEventListener(eventStart, (e) => {
+        e.preventDefault();
+        if (PlayState == ON) {   // 再生されてたら一時停止
+            funcVideoCtrl(PLAY);
+          }
+
+        if (selectedisplay != 1) vid[0].currentTime += FrameAdvanceResolution * 4;
+        if (selectedisplay != 2) vid[1].currentTime += FrameAdvanceResolution * 4;
+        Forward_press_timer = setInterval(() => {
+          //１コマ戻す
+          if (selectedisplay != 1) vid[0].currentTime += FrameAdvanceResolution * 4;
+          if (selectedisplay != 2) vid[1].currentTime += FrameAdvanceResolution * 4;
+        }, 100);
+      });
+      b_Forward.addEventListener(eventEnd, (e) => {
+        e.preventDefault();
+        clearInterval(Forward_press_timer); //インターバルタイマのクリア
+      });
+      b_Forward.addEventListener(eventLeave, (e) => {
+        e.preventDefault();
+        let el;
+        el = isSP ? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY) : b_Forward;
+        if (!isSP || el !== b_Forward) {
+          clearInterval(Forward_press_timer); //インターバルタイマのクリア
+        }
+      });
+
       b_stepBackward.addEventListener(eventStart, (e) => {
         e.preventDefault();
         if (PlayState == ON) {   // 再生されてたら一時停止
@@ -447,7 +527,7 @@
       b_stepBackward.addEventListener(eventLeave, (e) => {
         e.preventDefault();
         let el;
-        el = isSP ? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY) : b;
+        el = isSP ? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY) : b_stepBackward;
         if (!isSP || el !== b_stepBackward) {
           clearInterval(long_press_timer1); //インターバルタイマのクリア
         }
@@ -474,7 +554,7 @@
       b_stepForward.addEventListener(eventLeave, (e) => {
         e.preventDefault();
         let el;
-        el = isSP ? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY) : b;
+        el = isSP ? document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY) : b_stepForward;
         if (!isSP || el !== b_stepForward) {
           clearInterval(long_press_timer2); //インターバルタイマのクリア
         }
@@ -490,52 +570,53 @@
           // if (selectedisplay != 1) vid[0].currentTime += FrameAdvanceResolution;
           // if (selectedisplay != 2) vid[1].currentTime += FrameAdvanceResolution;
         } else if (index == BACKWARD) {
-          if (PlayState == OFF) {
-            funcVideoCtrl(PLAY);
-          }
-          // if (isSP) {
-          if (selectedisplay != 1) {  // 右側videoが選択されていない時
-            if (vid[0].playbackRate > 0) {
-              // 再生速度が0より進む方向
-              vid[0].playbackRate = -1; // PC版Chromeは逆再生が対応していない
-            } else {
-              vid[0].playbackRate -= 1; // PC版Chromeは逆再生が対応していない
-            }
-          }
-          if (selectedisplay != 2) {  // 左側videoが選択されていない時
-            if (videoloaded[1] == ON) vid[1].play();
-            if (vid[1].playbackRate > 0) {
-              // 再生速度が0より進む方向
-              vid[1].playbackRate = -1; // PC版Chromeは逆再生が対応していない
-            } else {
-              vid[1].playbackRate -= 1; // PC版Chromeは逆再生が対応していない
-            }
-          }
+          // if (isSP) {  // スマホかどうかで分岐（PC版Chromeは逆再生が対応していない）
+          //   if (PlayState == OFF) {
+          //     funcVideoCtrl(PLAY);
+          //   }
+          //   if (selectedisplay != 1) {  // 右側videoが選択されていない時
+          //     if (vid[0].playbackRate > 0) {
+          //       // 再生速度が0より進む方向
+          //       vid[0].playbackRate = -1; // PC版Chromeは逆再生が対応していない
+          //     } else {
+          //       vid[0].playbackRate -= 1; // PC版Chromeは逆再生が対応していない
+          //     }
+          //   }
+          //   if (selectedisplay != 2) {  // 左側videoが選択されていない時
+          //     if (videoloaded[1] == ON) vid[1].play();
+          //     if (vid[1].playbackRate > 0) {
+          //       // 再生速度が0より進む方向
+          //       vid[1].playbackRate = -1; // PC版Chromeは逆再生が対応していない
+          //     } else {
+          //       vid[1].playbackRate -= 1; // PC版Chromeは逆再生が対応していない
+          //     }
+          //   }
           // } else {
-          // PC版Chromeは逆再生が対応していない
-          // vid[0].currentTime = vid[0].currentTime - 3;
-          // vid[1].currentTime = vid[1].currentTime - 3;
+          //   // PC版Chromeは逆再生が対応していない
+          //   alert('この機能は2021年5月現在はPC版Safari、モバイル版SafariとChromeのみ対応しています。');
+          //   // vid[0].currentTime = vid[0].currentTime - 3;
+          //   // vid[1].currentTime = vid[1].currentTime - 3;
           // }
         } else if (index == FORWARD) {
-          if (PlayState == OFF) {
-            funcVideoCtrl(PLAY);
-          }
-          if (selectedisplay != 1) {  // 右側videoが選択されていない時
-            if (vid[0].playbackRate < 0) {
-              // 再生設定が早戻し中
-              vid[0].playbackRate = 2;
-            } else {
-              vid[0].playbackRate += 1;
-            }
-          }
-          if (selectedisplay != 2) {  // 左側videoが選択されていない時
-            if (vid[1].playbackRate < 0) {
-              // 再生設定が早戻し中
-              vid[1].playbackRate = 2;
-            } else {
-              vid[1].playbackRate += 1;
-            }
-          }
+          // if (PlayState == OFF) {
+          //   funcVideoCtrl(PLAY);
+          // }
+          // if (selectedisplay != 1) {  // 右側videoが選択されていない時
+          //   if (vid[0].playbackRate < 0) {
+          //     // 再生設定が早戻し中
+          //     vid[0].playbackRate = 2;
+          //   } else if (vid[0].playbackRate < 4) {
+          //     vid[0].playbackRate += 1;
+          //   }
+          // }
+          // if (selectedisplay != 2) {  // 左側videoが選択されていない時
+          //   if (vid[1].playbackRate < 0) {
+          //     // 再生設定が早戻し中
+          //     vid[1].playbackRate = 2;
+          //   } else if (vid[1].playbackRate < 4) {
+          //     vid[1].playbackRate += 1;
+          //   }
+          // }
         } else if (index == PLAY) {
           // 再生ボタンとポーズボタンのフォント切り替え
           b_play.classList.toggle('fa-play');
